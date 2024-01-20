@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const Timer = () => {
-  let [time, setTime] = useState('')
+  const [time, setTime] = useState('')
   const [message, setMessage] = useState("Enter Time & Click Start Timer")
 
   const countDown = () => {
@@ -37,7 +37,7 @@ export const Timer = () => {
           clearInterval(intervalId);
           return prevTime
         }
-      });
+      })
     }, 1000)
 
     return () => {
@@ -64,5 +64,5 @@ export const Timer = () => {
         {message} 
       </p>
     </>
-  );
-};
+  )
+}

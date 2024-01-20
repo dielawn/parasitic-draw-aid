@@ -1,17 +1,13 @@
 import React, { useState } from "react"
 import { getDateTime } from "./utils"
 
-export const BatteryTest = () => {
-  const [results, setTestResult] = useState([])
-  const [batVolts, setbatVolts] = useState('')
-  const [batAmps, setBatAmps] = useState('')
-  
+export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setBattTestResults}) => {
 
    const handleResult = () => {
     if (batVolts !== '') {
       const timestamp = getDateTime()
-      setTestResult(prevResults => [...prevResults, { volts: batVolts, amps: batAmps, timestamp }])
-      setbatVolts('')
+      setBattTestResults(prevResults => [...prevResults, { volts: batVolts, amps: batAmps, timestamp }])
+      setBattVoltage('')
       setBatAmps('')
     }
   }
@@ -26,7 +22,7 @@ export const BatteryTest = () => {
         id="battVolts"
         placeholder="Voltage"
         value={batVolts}
-        onChange={(e) => setbatVolts(e.target.value)}
+        onChange={(e) => setBattVoltage(e.target.value)}
       />
       <label htmlFor="battAmps">CCA: </label>
       <input
@@ -37,11 +33,7 @@ export const BatteryTest = () => {
         onChange={(e) => { setBatAmps(e.target.value)}}>
         </input>
       <button type="button" onClick={handleResult}>Add Test Result</button>
-      <ul>
-        {results.map((resultObj, index) => (
-          <li key={index}>{resultObj.volts} volts, {resultObj.amps} cca {resultObj.timestamp}</li>
-        ))}
-      </ul>
+
     </>
   )
 }
