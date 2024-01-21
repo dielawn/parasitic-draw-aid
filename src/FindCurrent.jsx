@@ -8,8 +8,10 @@ const timestamp = getDateTime()
 export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, setFuseLocation, fuseLocation, setDrawResults }) => {
 
     const formatMV = (e) => {
-        const formattedNum = Number(e.target.value)
-        setMV(formattedNum)     
+        if (e.target.value !== '') {
+            const formattedNum = Number(e.target.value)
+            setMV(formattedNum) 
+        }            
     }
     
     const handleFuseTypeChange = (e) => {
@@ -17,10 +19,19 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
     }
 
     const findAmperage = () => {
-        const stringMV = mV.toFixed(1).toString()
-        const draw = fuseVoltageDropObj[stringMV][fuseType]
-        setMADraw(draw)
+        const stringMV = mV.toFixed(1).toString();
+        console.log('stringMV:', stringMV);
+        console.log('fuseType:', fuseType);
+        
+        // Check if the property exists before accessing it
+        if (fuseVoltageDropObj[stringMV] && fuseVoltageDropObj[stringMV][fuseType]) {
+            const draw = fuseVoltageDropObj[stringMV][fuseType];
+            setMADraw(draw);
+        } else {
+            console.log('Error: Property not found in fuseVoltageDropObj');
+        }
     }
+    
 
     const handleResult = () => {
         setDrawResults(prevResults => [...prevResults, {fuseLocation: fuseLocation, mV: mV, mADraw: mADraw, timestamp}])
@@ -28,8 +39,10 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
     }
 
     useEffect(() => {
-        findAmperage()
-    , [mV, fuseType]})
+        if (mV !== undefined && fuseType !== undefined) {
+            findAmperage();
+        }
+    })
   
     return (
         <>
@@ -65,7 +78,7 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
             onChange={(e) => setFuseLocation((e.target.value.toString()))}
             type="text">
         </input><br></br>
-        <button type='button' onClick={handleResult}>Log Result</button>
+        <button type='button' onClick={handleResult}>Add Result</button>
         <p>Fuse# {fuseLocation}<br></br>mV: {mV}<br></br>{mADraw} mA <br></br>{timestamp}</p>
         </>
     )

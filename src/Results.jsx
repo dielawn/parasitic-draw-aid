@@ -5,7 +5,7 @@ export const TestResults = ({batTestResults, drawResults, codeArray}) => {
     return (
         <div>
         {batTestResults.map((resultObj, index) => (
-          <p key={index}>Battery Test: {resultObj.timestamp} <br></br>{resultObj.volts} volts, {resultObj.amps} cca </p>
+          <p key={index}>Battery Test: {resultObj.volts} volts, {resultObj.amps} cca <br></br>{resultObj.timestamp} </p>
         ))}
         {codeArray.map((item, index) => (
           <p key={index}>Code: {item}<br></br>{timestamp}</p>
