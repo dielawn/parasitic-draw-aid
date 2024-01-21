@@ -1,15 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { getDateTime } from "./utils"
 
-export const Timer = () => {
+export const Timer = ({setTimeLog}) => {
   const [time, setTime] = useState('')
   const [message, setMessage] = useState("Enter Time & Click Start Timer")
+  const isMounted = useRef(true)
+  
+  
+
+  const handleTimeLog = (txt) => {
+    const timestamp = getDateTime()
+    const duration = time
+    setTimeout(() => {
+      setTimeLog(prevResults => [...prevResults, {duration: duration, txt: txt, timestamp: timestamp}])
+    }, 1000)
+  }
 
   const countDown = () => {
+    handleTimeLog('Sleep Countdown Started ')
     const intervalId = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime <= 0) {
           clearInterval(intervalId);
           setMessage("Modules are asleep")
+          handleTimeLog('Sleep Countdown Complete ')
           return 0
         } else {
             setMessage(`Time remaining: ${prevTime}`)
@@ -44,7 +58,7 @@ export const Timer = () => {
       isMounted = false
       clearInterval(intervalId)
     }
-  }, [])
+  }, [setTimeLog])
 
   return (
     <>

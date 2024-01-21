@@ -6,7 +6,7 @@ export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setB
    const handleResult = () => {
     if (batVolts !== '') {
       const timestamp = getDateTime()
-      setBattTestResults(prevResults => [...prevResults, { volts: batVolts, amps: batAmps, timestamp }])
+      setBattTestResults(prevResults => [...prevResults, { volts: batVolts, amps: batAmps, timestamp: timestamp }])
       setBattVoltage('')
       setBatAmps('')
     }
@@ -15,7 +15,7 @@ export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setB
 
   return (
     <>
-      <h2>Battery Test Results</h2>
+      <h2>Battery Test</h2>
       <label htmlFor="battVolts">Voltage: </label>
       <input
         type="text"

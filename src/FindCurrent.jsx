@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { getDateTime } from './utils'
 import { fuseVoltageDropObj } from './voltageDrop'
 
-const timestamp = getDateTime()
+
 
 
 export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, setFuseLocation, fuseLocation, setDrawResults }) => {
@@ -19,34 +19,36 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
     }
 
     const findAmperage = () => {
-        const stringMV = mV.toFixed(1).toString();
-        console.log('stringMV:', stringMV);
-        console.log('fuseType:', fuseType);
-        
+        const stringMV = mV.toFixed(1).toString()
         // Check if the property exists before accessing it
         if (fuseVoltageDropObj[stringMV] && fuseVoltageDropObj[stringMV][fuseType]) {
-            const draw = fuseVoltageDropObj[stringMV][fuseType];
-            setMADraw(draw);
+            const draw = fuseVoltageDropObj[stringMV][fuseType]
+            setMADraw(draw)
         } else {
-            console.log('Error: Property not found in fuseVoltageDropObj');
+            console.log('Error: Property not found in fuseVoltageDropObj')
         }
     }
     
 
     const handleResult = () => {
-        setDrawResults(prevResults => [...prevResults, {fuseLocation: fuseLocation, mV: mV, mADraw: mADraw, timestamp}])
+        const timestamp = getDateTime()
+        setDrawResults(prevResults => [...prevResults, {fuseLocation: fuseLocation, mV: mV, mADraw: mADraw, fuseType: splitLetNum(fuseType), timestamp: timestamp}])
         setFuseLocation('')
+    }
+
+    const splitLetNum = (inputString) => {
+       const [letters, nums] = inputString.split(/([a-zA-Z]+)([0-9]+)/).slice(1)
+       return `${letters} ${nums}`
     }
 
     useEffect(() => {
         if (mV !== undefined && fuseType !== undefined) {
             findAmperage();
         }
-    })
-  
+    }) 
     return (
-        <>
-        <h3>Current matrix</h3>
+        <div>
+        <h2>Voltage Drop: mV to mA</h2>
         <label htmlFor='mVInput'>mV: </label>
         <input 
             id='mVInput'
@@ -79,7 +81,7 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
             type="text">
         </input><br></br>
         <button type='button' onClick={handleResult}>Add Result</button>
-        <p>Fuse# {fuseLocation}<br></br>mV: {mV}<br></br>{mADraw} mA <br></br>{timestamp}</p>
-        </>
+        <h3>{mADraw} mA draw</h3>
+        </div>
     )
 } 

@@ -25,11 +25,12 @@ function App() {
   const [code, setCode] = useState('')
   const [codeArray, setCodeArray] = useState([])
 
+  const [timeLog, setTimeLog] = useState([])
 
   return (
-    <div>
+    <div className='flex'>
    <form action="none">
-   <BatteryTest 
+   <BatteryTest
       batVolts={batVolts} 
       batAmps={batAmps} 
       setBattTestResults={setBattTestResults}
@@ -41,7 +42,10 @@ function App() {
       setCode={setCode}
       setCodeArray={setCodeArray}
     />
-   <Timer />
+   <Timer
+    
+    setTimeLog={setTimeLog}
+  />
    <MVToAmps 
       mV={mV}
       fuseType={fuseType}
@@ -54,15 +58,16 @@ function App() {
       setDrawResults={setDrawResults}
     />
 
-  <TestResults 
-    batTestResults={batTestResults} 
-    codeArray={codeArray}
-    drawResults={drawResults}
-     />
+  
     
    </form>
      
-    
+   <TestResults 
+    batTestResults={batTestResults} 
+    codeArray={codeArray}
+    drawResults={drawResults}
+    timeLog={timeLog}
+     />
 
     </div>
   )

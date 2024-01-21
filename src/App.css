@@ -46,3 +46,12 @@
 .red {
   color: red;
 }
+.flex {
+  display: flex;
+}
+.pad {
+  padding: 25px;
+}
+.resultsDiv {
+  padding: 50px;
+}

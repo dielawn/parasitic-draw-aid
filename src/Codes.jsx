@@ -2,7 +2,7 @@
 export const DocumentCodes = ({code, setCode, setCodeArray}) => {
 
     const handleCode = () => {
-        setCodeArray((prevCodes) => [...prevCodes, code])
+        setCodeArray((prevCodes) => [...prevCodes, [ code ]])
         setCode('')
       }
 
