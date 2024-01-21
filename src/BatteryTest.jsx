@@ -23,7 +23,7 @@ export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setB
         placeholder="Voltage"
         value={batVolts}
         onChange={(e) => setBattVoltage(e.target.value)}
-      />
+      /><br></br>
       <label htmlFor="battAmps">CCA: </label>
       <input
         type="text"
@@ -31,7 +31,7 @@ export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setB
         placeholder="Amps"
         value={batAmps}
         onChange={(e) => { setBatAmps(e.target.value)}}>
-        </input>
+        </input><br></br>
       <button type="button" onClick={handleResult}>Add Test Result</button>
 
     </>

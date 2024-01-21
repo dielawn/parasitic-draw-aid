@@ -56,10 +56,8 @@ export const Timer = () => {
         placeholder="Time in minutes"
         value={time}
         onChange={(e) => setTime(parseInt(e.target.value) * 60)}
-      />
-      <button type="button" onClick={countDown}>
-        Start Timer
-      </button>
+      /><br></br>
+      <button type="button" onClick={countDown}>Start Timer</button>
       <p>
         {message} 
       </p>
