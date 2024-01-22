@@ -55,3 +55,15 @@
 .resultsDiv {
   padding: 50px;
 }
+.alignLeft {
+  text-align: left;
+}
+tr {
+  border-bottom: solid 1px black;
+}
+.alignRight {
+  text-align: right;
+}
+.stepsDiv {
+  max-width: 55%;
+}

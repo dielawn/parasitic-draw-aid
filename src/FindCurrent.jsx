@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { getDateTime } from './utils'
 import { fuseVoltageDropObj } from './voltageDrop'
-
+import { AmpTable } from './AmpTable'
 
 
 
@@ -47,6 +47,10 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
         }
     }) 
     return (
+        <div className='alignRight flex'>
+           <div>
+           <AmpTable />
+           </div>
         <div>
         <h2>Voltage Drop: mV to mA</h2>
         <label htmlFor='mVInput'>mV: </label>
@@ -82,6 +86,7 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
         </input><br></br>
         <button type='button' onClick={handleResult}>Add Result</button>
         <h3>{mADraw} mA draw</h3>
+        </div>
         </div>
     )
 } 

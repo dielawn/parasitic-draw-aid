@@ -7,7 +7,7 @@ export const DocumentCodes = ({code, setCode, setCodeArray}) => {
       }
 
     return (
-        <div>
+        <div  className='alignRight'>
             <h2>Document Codes</h2>
             <label htmlFor="codesInput">Codes: </label>
             <input

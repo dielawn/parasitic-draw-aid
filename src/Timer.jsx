@@ -33,6 +33,16 @@ export const Timer = ({setTimeLog}) => {
     }, 1000)
   }
 
+  const minutesToSeconds = (minutes) => {
+    return Number(minutes * 60)
+  }
+const handleTime = (minutes) => {
+  if(minutes <= 1) {
+    return Number(minutes * 60)
+  }
+  return Number(minutes / 60)
+}
+
   useEffect(() => {
     let isMounted = true
 
@@ -61,20 +71,21 @@ export const Timer = ({setTimeLog}) => {
   }, [setTimeLog])
 
   return (
-    <>
+    <div  className='alignRight'>
       <h2>Sleep Timer</h2>
       <label htmlFor="timeInput">Time until sleep: </label>
       <input
         type="text"
         id="timeInput"
-        placeholder="Time in minutes"
-        value={time}
-        onChange={(e) => setTime(parseInt(e.target.value) * 60)}
+        placeholder="Time in Minutes"
+        value={handleTime(time)}
+        onChange={(e) => setTime(parseInt(e.target.value))}
+        onBlur={(e) => setTime(minutesToSeconds(e.target.value))}
       /><br></br>
       <button type="button" onClick={countDown}>Start Timer</button>
       <p>
         {message} 
       </p>
-    </>
+    </div>
   )
 }

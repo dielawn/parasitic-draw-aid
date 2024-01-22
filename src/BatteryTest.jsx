@@ -14,7 +14,7 @@ export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setB
   
 
   return (
-    <>
+    <div className='alignRight'>
       <h2>Battery Test</h2>
       <label htmlFor="battVolts">Voltage: </label>
       <input
@@ -34,6 +34,6 @@ export const BatteryTest = ({batVolts, batAmps, setBatAmps, setBattVoltage, setB
         </input><br></br>
       <button type="button" onClick={handleResult}>Add Test Result</button>
 
-    </>
+    </div>
   )
 }
