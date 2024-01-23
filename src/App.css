@@ -67,3 +67,6 @@ tr {
 .stepsDiv {
   max-width: 55%;
 }
+.hide {
+  display: none;
+}
