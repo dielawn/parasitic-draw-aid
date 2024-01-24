@@ -47,7 +47,7 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
         }
     }) 
     return (
-        <div className='alignRight flex'>
+        <div className='alignRight flexColumn vDrop'>
            <div>
            <AmpTable />
            </div>
