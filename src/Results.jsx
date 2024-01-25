@@ -16,7 +16,7 @@ export const TestResults = ({batTestResults, drawResults, codeArray, timeLog ,am
         ))}
         <h3>Sleep log:</h3>
         {timeLog.map((resultObj, index) => (
-            <p key={index}>{((resultObj.duration) / 60)  } Min {resultObj.txt}<br></br>{resultObj.timestamp}</p>
+            <p key={index}>{resultObj.sleepTime} hours until sleep.<br></br>Started: {resultObj.timestamp}</p>
         ))}
         <h3>System Current:</h3>
         {ampsLog.map((resultObj, index) => (

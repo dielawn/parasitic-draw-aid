@@ -8,6 +8,8 @@ import { AmpClampTest } from './AmpClamp'
 import { AddNote } from './AddNote'
 import './App.css'
 import { Links } from './Links'
+import { CountdownTimer } from './CountdownTimer'
+import { LogSLeep } from './SleepLog'
 
 
 function App() {
@@ -96,9 +98,11 @@ followSteps()
               </div>               
               <div className='step'>
                 <p>4. Wait for modules to fall asleep, overnight is best</p>
-                <Timer    
+                {/* <Timer    
                   setTimeLog={setTimeLog}
-                />
+                /> */}
+                {/* <CountdownTimer setTimeLog={setTimeLog} /> */}
+                <LogSLeep setTimeLog={setTimeLog} />
               </div>
               <div className='step'> 
                 <p>5. Test</p>
@@ -152,10 +156,10 @@ followSteps()
                   setNoteObj={setNoteObj}/>
               </div>
             </div>
-           
+            
             {/* <Links /> */}
         </div>
-
+   
      
    <TestResults 
     batTestResults={batTestResults} 
