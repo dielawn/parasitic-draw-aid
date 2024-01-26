@@ -93,3 +93,7 @@ tr {
 .vDrop {
   max-width: fit-content;
 }
+.pdfLink {
+  position: absolute;
+  top: 20px;
+}

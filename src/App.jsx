@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BatteryTest } from './BatteryTest'
-import { Timer } from './Timer'
 import { TestResults } from './Results'
 import { DocumentCodes } from './Codes'
 import { MVToAmps } from './FindCurrent'
@@ -8,8 +7,11 @@ import { AmpClampTest } from './AmpClamp'
 import { AddNote } from './AddNote'
 import './App.css'
 import { Links } from './Links'
-import { CountdownTimer } from './CountdownTimer'
 import { LogSLeep } from './SleepLog'
+import { GeneratePDF } from './GeneratePDF'
+import {PDFDownloadLink} from '@react-pdf/renderer'
+
+
 
 
 function App() {
@@ -35,6 +37,12 @@ function App() {
   const [ampsLog, setAmpsLog] = useState([])
 
   const [currentStep, setCurrentStep] = useState(0)
+
+  const [showPDF, setShowPDF] = useState(false)
+
+  const handleGeneratePDF = () => {
+    setShowPDF(true)
+  }
 
   const followSteps = () => {
     const steps = document.querySelectorAll('.step')
@@ -161,6 +169,7 @@ followSteps()
         </div>
    
      
+   <div>
    <TestResults 
     batTestResults={batTestResults} 
     codeArray={codeArray}
@@ -169,6 +178,34 @@ followSteps()
     ampsLog={ampsLog}
     noteObj={noteObj}
      />
+   <div>
+    <PDFDownloadLink className='pdfLink' document={
+      <GeneratePDF 
+        batTestResults={batTestResults} 
+        codeArray={codeArray}
+        drawResults={drawResults}
+        timeLog={timeLog}
+        ampsLog={ampsLog}
+        noteObj={noteObj}
+      />} fileName="draw-report.pdf">
+        {({ blob, url, loading, error }) =>
+          loading ? 'Loading document...' : 'Download now!'
+
+        }
+      </PDFDownloadLink>
+    {/* <button onClick={handleGeneratePDF}>Generate PDF</button>
+    {showPDF && 
+      <GeneratePDF 
+        batTestResults={batTestResults} 
+        codeArray={codeArray}
+        drawResults={drawResults}
+        timeLog={timeLog}
+        ampsLog={ampsLog}
+        noteObj={noteObj}
+      />} */}
+   </div>
+
+   </div>
 
     </div>
   )
