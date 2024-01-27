@@ -24,7 +24,7 @@ export const GeneratePDF = ({batTestResults, codeArray, drawResults, ampsLog, no
             padding: 5
         },
         header: {
-            margin: 10,
+            margin: 5,
             padding: 10,
             backgroundColor: 'blue',
             color: 'white',
@@ -40,13 +40,15 @@ export const GeneratePDF = ({batTestResults, codeArray, drawResults, ampsLog, no
             padding: 10,
             margin: 2,
             fontSize: 12,
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            
         },
         vDropContainer: {
             flexDirection: 'row',
             flexWrap: 'wrap', 
             width: '100vw', 
-            alignContent: 'center'
+            alignContent: 'center',
+            padding: 10,
         },
     })
     return (
