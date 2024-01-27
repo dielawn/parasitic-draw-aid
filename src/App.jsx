@@ -16,29 +16,27 @@ import {PDFDownloadLink} from '@react-pdf/renderer'
 
 function App() {
   const [batTestResults, setBattTestResults] = useState([])
-  const [batVolts, setBattVoltage] = useState('')
-  const [batAmps, setBatAmps] = useState('')
+  const [batVolts, setBattVoltage] = useState(12.2)
+  const [batAmps, setBatAmps] = useState(800)
 
-  const [note, setNote] = useState('')
+  const [note, setNote] = useState('Note worthy notes')
   const [noteObj, setNoteObj] = useState([])
 
-  const [fuseLocation, setFuseLocation] = useState('')
+  const [fuseLocation, setFuseLocation] = useState('69')
   const [fuseType, setFuseType] = useState('mini5')
   const [mV, setMV] = useState(0.1) 
-  const [mADraw, setMADraw] = useState('')
+  const [mADraw, setMADraw] = useState('420')
   const [drawResults, setDrawResults] = useState([])
 
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState('p0420 - Catalyst efficiency bellow threshold')
   const [codeArray, setCodeArray] = useState([])
 
   const [timeLog, setTimeLog] = useState([])
 
-  const [systemAmps, setSystemAmps] = useState('')
+  const [systemAmps, setSystemAmps] = useState('420')
   const [ampsLog, setAmpsLog] = useState([])
 
   const [currentStep, setCurrentStep] = useState(0)
-
-  const [showPDF, setShowPDF] = useState(false)
 
   const handleGeneratePDF = () => {
     setShowPDF(true)
