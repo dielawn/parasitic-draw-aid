@@ -10,6 +10,7 @@ import { Links } from './Links'
 import { LogSLeep } from './SleepLog'
 import { GeneratePDF } from './GeneratePDF'
 import {PDFDownloadLink} from '@react-pdf/renderer'
+import { PlateToVinConverter } from './PlateToVinObj'
 
 
 
@@ -38,9 +39,10 @@ function App() {
 
   const [currentStep, setCurrentStep] = useState(0)
 
-  const handleGeneratePDF = () => {
-    setShowPDF(true)
-  }
+  const [state, setState] = useState('')
+  const [plate, setPlate] = useState('')
+  const [vehicle, setVehicle] = useState(null)
+
 
   const followSteps = () => {
     const steps = document.querySelectorAll('.step')
@@ -168,6 +170,19 @@ followSteps()
    
      
    <div>
+    <PlateToVinConverter 
+      state={state}
+      plate={plate}
+      setState={setState}
+      setPlate={setPlate}  
+      setVehicle={setVehicle}
+    />
+    {vehicle && (
+                <div>
+                    <h2>Vehicle Data</h2>
+                    <pre>{JSON.stringify(vehicle, null, 2)}</pre>
+                </div>
+            )}
    <TestResults 
     batTestResults={batTestResults} 
     codeArray={codeArray}
