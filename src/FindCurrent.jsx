@@ -1,11 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getDateTime } from './utils'
 import { fuseVoltageDropObj } from './voltageDrop'
 import { AmpTable } from './AmpTable'
+import React from 'react'
 
-
-
-export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, setFuseLocation, fuseLocation, setDrawResults }) => {
+export const MVToAmps = ({setDrawResults }) => {
+    const [fuseLocation, setFuseLocation] = useState('69')
+    const [fuseType, setFuseType] = useState('mini5')
+    const [mV, setMV] = useState(0.1) 
+    const [mADraw, setMADraw] = useState('420')
 
     const formatMV = (e) => {
         if (e.target.value !== '') {
@@ -28,7 +31,6 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
             console.log('Error: Property not found in fuseVoltageDropObj')
         }
     }
-    
 
     const handleResult = () => {
         const timestamp = getDateTime()
@@ -46,6 +48,7 @@ export const MVToAmps = ({mV, fuseType, mADraw, setMV, setFuseType, setMADraw, s
             findAmperage();
         }
     }) 
+
     return (
         <div className='alignRight flexColumn vDrop'>
            <div>

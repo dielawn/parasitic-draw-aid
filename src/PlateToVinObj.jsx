@@ -1,7 +1,10 @@
 import { PLATE_TO_VIN_API_KEY } from "./config";
+import React from 'react'
+import { useState } from "react";
 
-export const PlateToVinConverter = ({state, setState, plate, setPlate, setVehicle}) => {
-    
+export const PlateToVinConverter = ({setVehicle}) => {
+    const [state, setState] = useState('')
+    const [plate, setPlate] = useState('')
     const makeApiCall = () => {
         console.log(`state: ${state}, plate: ${[plate]}`)
         if (state !== '' && plate !== '') {

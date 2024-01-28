@@ -1,6 +1,7 @@
-
-export const DocumentCodes = ({code, setCode, setCodeArray}) => {
-
+import React from 'react'
+import { useState } from 'react'
+export const DocumentCodes = ({setCodeArray}) => {
+    const [code, setCode] = useState('p0420 - Catalyst efficiency bellow threshold')
     const handleCode = () => {
         setCodeArray((prevCodes) => [...prevCodes, [ code ]])
         setCode('')

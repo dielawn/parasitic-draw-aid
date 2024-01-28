@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { getDateTime } from "./utils"
-
+import React from 'react'
 export const LogSLeep = ({setTimeLog}) => {
     const [sleepTime, setSleepTime] = useState('')
 
@@ -22,7 +22,6 @@ export const LogSLeep = ({setTimeLog}) => {
             onChange={(e) => setSleepTime(e.target.value)}
         /><br></br>
         <button type="button" onClick={handleSleepLog}>Log sleep time</button>
-
        </div>
     )
 }
