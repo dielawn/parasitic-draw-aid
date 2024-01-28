@@ -13,11 +13,12 @@ import {PDFDownloadLink} from '@react-pdf/renderer'
 import { PlateToVinConverter } from './PlateToVinObj'
 import { VinData } from './VinData'
 import React from 'react'
-
-
-
+import { CarMDRequestDecode } from './CarMD'
+import { DecodeVinExtended } from './NHTSAApi'
 
 function App() {
+  const [vehicle, setVehicle] = useState(null)
+  const [vehicleData, setVehicleData] = useState(null)
   const [batTestResults, setBattTestResults] = useState([])   
   const [noteObj, setNoteObj] = useState([])
   const [drawResults, setDrawResults] = useState([]) 
@@ -27,11 +28,6 @@ function App() {
 
   const [currentStep, setCurrentStep] = useState(0)
 
- 
-  const [vehicle, setVehicle] = useState(null)
-  const [vehicleData, setVehicleData] = useState(null)
-
-
   const followSteps = () => {
     const steps = document.querySelectorAll('.step')
     for(let i = 0; i < steps.length; i++) {
@@ -40,7 +36,6 @@ function App() {
         steps[i].classList.toggle('hide')
       }
     }
- 
   }
   const handleStepChange = (index) => {
     setCurrentStep(index)
@@ -51,7 +46,9 @@ function App() {
     }
     followSteps()
   }
-
+if (vehicle) {
+  console.log(vehicle.vin.vin)
+}
 followSteps()
   return (
     <div className='flex'>
@@ -63,9 +60,7 @@ followSteps()
             <div className="alignLeft"> 
 
               <div className='step'>
-                <PlateToVinConverter 
-                  setVehicle={setVehicle}
-                />
+                <PlateToVinConverter setVehicle={setVehicle} />
                 {vehicle && (
                   <div>
                     <h2>Vehicle Data</h2>
@@ -74,25 +69,27 @@ followSteps()
                       vehicle={vehicle}
                       setVehicleData={setVehicleData}
                     />
-                </div>
-              )}
+                     {/* <div>
+                      <CarMDRequestDecode vin={vehicle.vin.vin} setVehicleData={setVehicleData}/>
+                      </div> */}
+                      
+                      <DecodeVinExtended vin={vehicle.vin.vin} />
+                  </div>
+                  
+                )}
             </div>
+
+           
 
               <div className='step' >
                 <p>1. Charge battery, test battery & charging system</p>
                 <ul> 
                   <li>Visual inspection for lights, devices, or obvious draws </li>
                 </ul>
-                <BatteryTest
-                  
-                  setBattTestResults={setBattTestResults}
-                  
-                />
+                <BatteryTest setBattTestResults={setBattTestResults} />
               </div>
               <div className='step'><p>2. Scan & document codes</p>
-                <DocumentCodes 
-                  setCodeArray={setCodeArray}
-                />
+                <DocumentCodes setCodeArray={setCodeArray} />
               </div>                
               <div className='step'>
                 <p>3. Prepare vehicle for sleep</p>
@@ -100,15 +97,10 @@ followSteps()
                     <li>Pop hood for access to battery junction box, bypass/disable hood ajar switch</li>
                     <li>Open and latch doors for access to interior fuse panel</li>
                 </ul>
-                <AddNote
-                  setNoteObj={setNoteObj}/>
+                <AddNote setNoteObj={setNoteObj}/>
               </div>               
               <div className='step'>
                 <p>4. Wait for modules to fall asleep, overnight is best</p>
-                {/* <Timer    
-                  setTimeLog={setTimeLog}
-                /> */}
-                {/* <CountdownTimer setTimeLog={setTimeLog} /> */}
                 <LogSLeep setTimeLog={setTimeLog} />
               </div>
               <div className='step'> 
@@ -116,35 +108,26 @@ followSteps()
                 <ul>
                     <li>Amp clamp at battery <em>Log result</em></li>
                 </ul>
-                  <AmpClampTest 
-                      setAmpsLog={setAmpsLog}
-                  />
+                  <AmpClampTest setAmpsLog={setAmpsLog} />
               </div>
               <div className='step'>
                 <p>6. Thermal camera scan fuse boxes & vehicle electronics <em>Note results</em></p>
-                <AddNote 
-                  setNoteObj={setNoteObj}
-                />
+                <AddNote setNoteObj={setNoteObj} />
               </div>
               <div className='step'>
                 <p>7. Measure voltage drop across fuses convert to mA and compare to amp clamp result</p>
-                  <MVToAmps 
-                    setDrawResults={setDrawResults}
-                  />
+                  <MVToAmps setDrawResults={setDrawResults} />
               </div>
               <div className='step'> 
                 <p>8. Last pull remaining fuses 1 at a time while monitoring amperage</p>
-                <AddNote 
-                  setNoteObj={setNoteObj}
-                />
+                <AddNote setNoteObj={setNoteObj} />
               </div>
               <div className='step'>
                 <p>9. Isolate: </p>
                 <ul>
                     <li>Refrence a wiring diagram and unplug each circuit load one at a time while monitoring amperage</li>
                 </ul>
-                <AddNote
-                  setNoteObj={setNoteObj}/>
+                <AddNote setNoteObj={setNoteObj}/>
               </div>
             </div>
             
