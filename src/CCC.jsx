@@ -4,21 +4,31 @@ export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
     const [concern, setConcern] = useState('')
     const [cause, setCause]  = useState('')
     const [correction, setCorrection] = useState('')
-
+    const [editIndex, setEditIndex] = useState(0)
     const [isEdit, setIsEdit] = useState(true)
       
 
     const handleCCCSubmit = () => {
-        setCCC((prevCCC) => [...prevCCC, {concern, cause, correction}])
-        setChecklist((prevTasks) => [...prevTasks, {concern, cause, correction}])
-        setIsEdit(false)
+        //if this is an edit don't add another element just amend
+        if (isEdit) {
+            const updatedCCC = [...ccc]
+            updatedCCC[editIndex] = {concern, cause, correction}
+            setCCC(updatedCCC)
+            setIsEdit(false)
+        } else {
+            setCCC((prevCCC) => [...prevCCC, {concern, cause, correction}])
+        }
+        
     }
 
     const handleEditCCC = (index) => {
         setIsEdit(true)
+        setEditIndex(index)
         setConcern(ccc[index].concern)
         setCause(ccc[index].cause)
         setCorrection(ccc[index].correction)
+        
+        
     }
     
     return (
@@ -65,6 +75,15 @@ export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
             </div>
             ) : (
                 <div>
+                    <button onClick={() => {
+                        setConcern('')
+                        setCause('')
+                        setCorrection('')
+                        setIsEdit(true)
+
+                        handleCCCSubmit()
+                        
+                        }} className="new-button">New CCC</button>
                     {ccc.map((cccObj, index) => (
                     <div key={index}>             
                         <button onClick={() => handleEditCCC(index)} className="edit-button">

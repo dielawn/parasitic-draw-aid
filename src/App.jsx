@@ -65,17 +65,7 @@ window.addEventListener('load', () => {
         {isConcern && (
           <div>
             <VehicleConcern setChecklist={setChecklist} setCCC={setCCC} ccc={ccc} />
-          {ccc.map((cccObj, index) => (
-            <div key={index}>             
-                <button onClick={() => handleEditCCC(index)} className="edit-button">
-                  Edit CCC {index + 1} 
-                </button>            
-                <h3>CCC {index + 1}</h3>
-                <p>Concern: {cccObj.concern}</p>
-                <p>Cause: {cccObj.cause}</p>
-                <p>Correction: {cccObj.correction}</p>
-            </div>
-        ))}
+         
           </div>
         )}
       </div>
