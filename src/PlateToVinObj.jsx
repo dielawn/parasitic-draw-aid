@@ -5,7 +5,7 @@ import { useState } from "react";
 export const PlateToVinConverter = ({setVehicle}) => {
     const [state, setState] = useState('')
     const [plate, setPlate] = useState('')
-    const makeApiCall = () => {
+    const makeApiCall = async () => {
         console.log(`state: ${state}, plate: ${[plate]}`)
         if (state !== '' && plate !== '') {
             const url = new URL("https://platetovin.com/api/convert")
@@ -51,7 +51,7 @@ export const PlateToVinConverter = ({setVehicle}) => {
                 placeholder="AL"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-            />
+            /><br></br>
             <label htmlFor="plateInput">Plate</label>
             <input 
                 type="text"
@@ -59,7 +59,7 @@ export const PlateToVinConverter = ({setVehicle}) => {
                 placeholder="943PBE"
                 value={plate}
                 onChange={(e) => setPlate(e.target.value)}
-            />
+            /><br></br>
             <button onClick={makeApiCall}>Get Vehicle Data</button>
 
         </div>

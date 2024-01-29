@@ -1,182 +1,114 @@
-import { useState } from 'react'
-import { BatteryTest } from './BatteryTest'
-import { TestResults } from './Results'
-import { DocumentCodes } from './Codes'
-import { MVToAmps } from './FindCurrent'
-import { AmpClampTest } from './AmpClamp'
-import { AddNote } from './AddNote'
+import React, { useState } from 'react'
 import './App.css'
-import { Links } from './Links'
-import { LogSLeep } from './SleepLog'
-import { GeneratePDF } from './GeneratePDF'
-import {PDFDownloadLink} from '@react-pdf/renderer'
 import { PlateToVinConverter } from './PlateToVinObj'
-import { VinData } from './VinData'
-import React from 'react'
-import { CarMDRequestDecode } from './CarMD'
-import { DecodeVinExtended } from './NHTSAApi'
+import { CustomerInfo } from './CustomerInfo'
+import { VehicleConcern } from './CCC'
+import { DrawTestApp } from './DrawApp'
+import { DocumentCodes } from './Codes'
 
 function App() {
+  const [customer, setCustomer] = useState(null)
   const [vehicle, setVehicle] = useState(null)
-  const [vehicleData, setVehicleData] = useState(null)
-  const [batTestResults, setBattTestResults] = useState([])   
-  const [noteObj, setNoteObj] = useState([])
-  const [drawResults, setDrawResults] = useState([]) 
+  const [vehicleData, setVehicleData] = useState([])
+  const [isConcern, setIsConcern] = useState(false)
+  const [isInspection, setIsInspection] = useState(false)
+  const [isDraw, setIsDraw] = useState(false)
+  const [isCode, setIsCode] = useState(false)
   const [codeArray, setCodeArray] = useState([])
-  const [timeLog, setTimeLog] = useState([])
-  const [ampsLog, setAmpsLog] = useState([])
-
-  const [currentStep, setCurrentStep] = useState(0)
-
-  const followSteps = () => {
-    const steps = document.querySelectorAll('.step')
-    for(let i = 0; i < steps.length; i++) {
-      steps[i].classList.add('hide')
-      if(currentStep == i) {
-        steps[i].classList.toggle('hide')
-      }
-    }
+  const [isTask, setIsTask] = useState(false)
+  const [checklist, setChecklist] = useState([])
+  const [ccc, setCCC] = useState([],)
+  
+  const addTask = (task) => {
+    setChecklist((prevTasks) => [...prevTasks, task])
   }
-  const handleStepChange = (index) => {
-    setCurrentStep(index)
-    if (index >= 8) {
-      setCurrentStep(0)
-    } else if (index <= 0) {
-      setCurrentStep(8)
-    }
-    followSteps()
+
+  const handleEditCCC = (index) => {
+    <VehicleConcern setCCC={setCCC} setChecklist={setChecklist} ccc={ccc[index]} />
   }
-if (vehicle) {
-  console.log(vehicle.vin.vin)
-}
-followSteps()
+window.addEventListener('load', () => {
+ 
+})
   return (
-    <div className='flex'>
-      <div className='buttonDiv flex'>
-        <button type='button' onClick={ () => handleStepChange(currentStep - 1)}>Back</button> 
-        <button type='button' onClick={ () => handleStepChange(currentStep + 1)}>Next</button>
-      </div>
-       <div className='stepsDiv'>
-            <div className="alignLeft"> 
-
-              <div className='step'>
-                <PlateToVinConverter setVehicle={setVehicle} />
-                {vehicle && (
+    <div className='flexColumn'>     
+    <div className='menuDiv flexColumn'>
+      <CustomerInfo />
+      
+      {vehicle ? (
+        <div>
+            <h3>Vehicle Info</h3>       
                   <div>
-                    <h2>Vehicle Data</h2>
-                    <pre>{JSON.stringify(vehicle, null, 2)}</pre>
-                    <VinData 
-                      vehicle={vehicle}
-                      setVehicleData={setVehicleData}
-                    />
-                     {/* <div>
-                      <CarMDRequestDecode vin={vehicle.vin.vin} setVehicleData={setVehicleData}/>
-                      </div> */}
-                      
-                      <DecodeVinExtended vin={vehicle.vin.vin} />
-                  </div>
-                  
-                )}
-            </div>
-
-           
-
-              <div className='step' >
-                <p>1. Charge battery, test battery & charging system</p>
-                <ul> 
-                  <li>Visual inspection for lights, devices, or obvious draws </li>
-                </ul>
-                <BatteryTest setBattTestResults={setBattTestResults} />
-              </div>
-              <div className='step'><p>2. Scan & document codes</p>
-                <DocumentCodes setCodeArray={setCodeArray} />
-              </div>                
-              <div className='step'>
-                <p>3. Prepare vehicle for sleep</p>
-                <ul>
-                    <li>Pop hood for access to battery junction box, bypass/disable hood ajar switch</li>
-                    <li>Open and latch doors for access to interior fuse panel</li>
-                </ul>
-                <AddNote setNoteObj={setNoteObj}/>
-              </div>               
-              <div className='step'>
-                <p>4. Wait for modules to fall asleep, overnight is best</p>
-                <LogSLeep setTimeLog={setTimeLog} />
-              </div>
-              <div className='step'> 
-                <p>5. Test</p>
-                <ul>
-                    <li>Amp clamp at battery <em>Log result</em></li>
-                </ul>
-                  <AmpClampTest setAmpsLog={setAmpsLog} />
-              </div>
-              <div className='step'>
-                <p>6. Thermal camera scan fuse boxes & vehicle electronics <em>Note results</em></p>
-                <AddNote setNoteObj={setNoteObj} />
-              </div>
-              <div className='step'>
-                <p>7. Measure voltage drop across fuses convert to mA and compare to amp clamp result</p>
-                  <MVToAmps setDrawResults={setDrawResults} />
-              </div>
-              <div className='step'> 
-                <p>8. Last pull remaining fuses 1 at a time while monitoring amperage</p>
-                <AddNote setNoteObj={setNoteObj} />
-              </div>
-              <div className='step'>
-                <p>9. Isolate: </p>
-                <ul>
-                    <li>Refrence a wiring diagram and unplug each circuit load one at a time while monitoring amperage</li>
-                </ul>
-                <AddNote setNoteObj={setNoteObj}/>
-              </div>
-            </div>
-            
-            {/* <Links /> */}
+                    <p>{vehicle.vin.year} {vehicle.vin.make} {vehicle.vin.model}</p>                    
+                    <p>{vehicle.vin.vin}</p>
+                    <p>{vehicle.vin.engine} {vehicle.vin.transmission}</p>
+                    <p>{vehicle.vin.driveType} {vehicle.vin.fuel} {vehicle.vin.style}</p>                    
+                </div>        
         </div>
-   
-     
-   <div>
-    
-   <TestResults 
-    batTestResults={batTestResults} 
-    codeArray={codeArray}
-    drawResults={drawResults}
-    timeLog={timeLog}
-    ampsLog={ampsLog}
-    noteObj={noteObj}
-    vehicle={vehicle}
-     />
-   <div>
-    <PDFDownloadLink className='pdfLink' document={
-      <GeneratePDF 
-        batTestResults={batTestResults} 
-        codeArray={codeArray}
-        drawResults={drawResults}
-        timeLog={timeLog}
-        ampsLog={ampsLog}
-        noteObj={noteObj}
-        vehicle={vehicle}
-      />} fileName="draw-report.pdf">
-        {({ blob, url, loading, error }) =>
-          loading ? 'Loading document...' : 'Download now!'
+      ) : (
+        <PlateToVinConverter setVehicle={setVehicle} />   
+      )}
+      
+        <h2>Tests & Inspections</h2>
+        <button onClick={() => {
+          setIsConcern(!isConcern)
+          if(isConcern && ccc.length >= 1) {
+            addTask(ccc)
+          }
+          }
+          }>{isConcern ? 'Hide' : 'Add'} CCC</button>
+        <button onClick={() => setIsInspection(!isInspection)}>{isInspection ? 'Hide' : 'Add'} DVI</button>
+        <button onClick={() => setIsCode(!isCode)}>{isCode ? 'Hide' : 'Document'} Code</button>
+        <button onClick={() => setIsDraw(!isDraw)}>{isDraw ? 'Hide' : 'Add'} Draw Test</button>
+        
+      </div>  
+      <div>
+        {isConcern && (
+          <div>
+            <VehicleConcern setChecklist={setChecklist} setCCC={setCCC} ccc={ccc} />
+          {ccc.map((cccObj, index) => (
+            <div key={index}>             
+                <button onClick={() => handleEditCCC(index)} className="edit-button">
+                  Edit CCC {index + 1} 
+                </button>            
+                <h3>CCC {index + 1}</h3>
+                <p>Concern: {cccObj.concern}</p>
+                <p>Cause: {cccObj.cause}</p>
+                <p>Correction: {cccObj.correction}</p>
+            </div>
+        ))}
+          </div>
+        )}
+      </div>
+      <div>
+        {isInspection && (
+          <div>
+            <h2>DVI</h2>
+          </div>
+        )}
+      </div>
+      <div>
+        {isDraw && (
+          <div>
+            <DrawTestApp vehicle={vehicle} codeArray={codeArray} setCodeArray={setCodeArray} customer={customer}/>
+          </div>
+        )}
+      </div>
 
-        }
-      </PDFDownloadLink>
-    {/* <button onClick={handleGeneratePDF}>Generate PDF</button>
-    {showPDF && 
-      <GeneratePDF 
-        batTestResults={batTestResults} 
-        codeArray={codeArray}
-        drawResults={drawResults}
-        timeLog={timeLog}
-        ampsLog={ampsLog}
-        noteObj={noteObj}
-      />} */}
+      <div>
+        {isCode && (
+         <DocumentCodes  setCodeArray={setCodeArray} />
+        )}
+      </div>
+      <div>
+        {isTask ? 
+        <div>
+          <h3>Tasks:</h3><br></br>
+          {checklist.map((item, index) => (
+            <p key={index}>{item}</p>
+          ))}
+        </div> : ''}
+      </div>
    </div>
-
-   </div>
-
-    </div>
   )
 }
 

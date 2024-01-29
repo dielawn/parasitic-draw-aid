@@ -60,7 +60,10 @@
   padding: 50px;
   border: solid 1px white;
   position: absolute;
-  top: 50px
+  bottom: 50px;
+  max-height: 250px;
+  overflow: scroll;
+  left: 35%;
 }
 .alignLeft {
   text-align: left;
@@ -89,11 +92,21 @@ tr {
   position: absolute;
   top: 200px;
   left: 50px;
+  max-width: 300px;
 }
 .vDrop {
   max-width: fit-content;
 }
 .pdfLink {
   position: absolute;
-  top: 20px;
+  bottom: 20px;
+  left: 50%;
+}
+.menuDiv {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+}
+button {
+  margin: 10px;
 }
