@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Component } from "react";
 
-export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
+export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdit, setIsEdit }) => {
     const [concern, setConcern] = useState('')
     const [cause, setCause]  = useState('')
     const [correction, setCorrection] = useState('')
     const [editIndex, setEditIndex] = useState(0)
-    const [isEdit, setIsEdit] = useState(true)
+  
       
 
     const handleCCCSubmit = () => {
@@ -15,10 +15,11 @@ export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
             updatedCCC[editIndex] = {concern, cause, correction}
             setCCC(updatedCCC)
             setIsEdit(false)
+            setChecklist((prevItem) => [...prevItem, concern])
         } else {
             setCCC((prevCCC) => [...prevCCC, {concern, cause, correction}])
         }
-        
+        handleTaskList()
     }
 
     const handleEditCCC = (index) => {
@@ -32,7 +33,7 @@ export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
     }
     
     return (
-       <div>
+       <div className="cccOuterDiv">
             {isEdit ? (<div><div className="concernDiv">
                 <label htmlFor="concernInput">Concern:</label><br></br>
                 <textarea 
@@ -80,12 +81,10 @@ export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
                         setCause('')
                         setCorrection('')
                         setIsEdit(true)
-
-                        handleCCCSubmit()
-                        
+                        handleCCCSubmit()                        
                         }} className="new-button">New CCC</button>
                     {ccc.map((cccObj, index) => (
-                    <div key={index}>             
+                    <div className="cccDiv" key={index}>             
                         <button onClick={() => handleEditCCC(index)} className="edit-button">
                           Edit CCC {index + 1} 
                         </button>            
@@ -94,20 +93,11 @@ export const VehicleConcern = ({setCCC, setChecklist, ccc, }) => {
                         <p>Cause: {cccObj.cause}</p>
                         <p>Correction: {cccObj.correction}</p>
                     </div>
-                ))}
-               
+                ))}               
                 </div>
             )}
-           
-                
-           
-                <div>
-               
-                
-              </div>
-            
-           
-            
-       </div>
+            <div>               
+        </div> 
+    </div>
     )
 }

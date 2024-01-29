@@ -110,3 +110,20 @@ tr {
 button {
   margin: 10px;
 }
+.cccDiv {
+  border: solid white 1px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: start;
+  position: relative;
+}
+.cccOuterDiv {
+  padding: 10px;
+  border: solid white 1px;
+  position: absolute;
+  right: 350px;
+  top: 50px;
+  overflow: scroll;
+  min-width: 300px;
+  max-height: 300px;
+}

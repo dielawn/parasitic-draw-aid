@@ -18,14 +18,28 @@ function App() {
   const [isTask, setIsTask] = useState(false)
   const [checklist, setChecklist] = useState([])
   const [ccc, setCCC] = useState([],)
-  
+  const [isEdit, setIsEdit] = useState(true)
   const addTask = (task) => {
     setChecklist((prevTasks) => [...prevTasks, task])
   }
 
-  const handleEditCCC = (index) => {
-    <VehicleConcern setCCC={setCCC} setChecklist={setChecklist} ccc={ccc[index]} />
+  const handleTaskList = () => {
+    console.log(checklist.length)
+    checklist.map((item) => {
+      console.log(item)
+    });
   }
+
+  // const handleEditCCC = (index) => {
+  //   <VehicleConcern 
+  //     setCCC={setCCC} 
+  //     setChecklist={setChecklist}  
+  //     ccc={ccc[index]} 
+  //     isEdit={isEdit} 
+  //     setIsEdit={setIsEdit}
+  //     handleTaskList={handleTaskList}
+  //   />
+  // }
 window.addEventListener('load', () => {
  
 })
@@ -52,10 +66,12 @@ window.addEventListener('load', () => {
         <button onClick={() => {
           setIsConcern(!isConcern)
           if(isConcern && ccc.length >= 1) {
-            addTask(ccc)
+            console.log('yes')
+            setIsEdit(false)
+          } 
+          
           }
-          }
-          }>{isConcern ? 'Hide' : 'Add'} CCC</button>
+          }>{isConcern ? 'Hide' : 'Show'} CCC</button>
         <button onClick={() => setIsInspection(!isInspection)}>{isInspection ? 'Hide' : 'Add'} DVI</button>
         <button onClick={() => setIsCode(!isCode)}>{isCode ? 'Hide' : 'Document'} Code</button>
         <button onClick={() => setIsDraw(!isDraw)}>{isDraw ? 'Hide' : 'Add'} Draw Test</button>
@@ -64,7 +80,14 @@ window.addEventListener('load', () => {
       <div>
         {isConcern && (
           <div>
-            <VehicleConcern setChecklist={setChecklist} setCCC={setCCC} ccc={ccc} />
+            <VehicleConcern 
+              setChecklist={setChecklist} 
+              setCCC={setCCC} 
+              ccc={ccc} 
+              isEdit={isEdit} 
+              setIsEdit={setIsEdit}
+              handleTaskList={handleTaskList}
+            />
          
           </div>
         )}
