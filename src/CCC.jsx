@@ -86,7 +86,7 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
                     {ccc.map((cccObj, index) => (
                     <div className="cccDiv" key={index}>             
                         <button onClick={() => handleEditCCC(index)} className="edit-button">
-                          Edit CCC {index + 1} 
+                        <span className="material-symbols-outlined">edit</span>
                         </button>            
                         <h3>CCC {index + 1}</h3>
                         <p>Concern: {cccObj.concern}</p>
