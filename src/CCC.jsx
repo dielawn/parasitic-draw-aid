@@ -5,6 +5,8 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
     const [cause, setCause]  = useState('')
     const [correction, setCorrection] = useState('')
     const [editIndex, setEditIndex] = useState(0)
+    const [isComplete, setIsComplete] = useState(false)
+    const [checkBoxIcon, setCheckBoxIcon] = useState('check_box_outline_blank')
   
       
 
@@ -27,9 +29,12 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
         setEditIndex(index)
         setConcern(ccc[index].concern)
         setCause(ccc[index].cause)
-        setCorrection(ccc[index].correction)
-        
-        
+        setCorrection(ccc[index].correction)        
+    }
+
+    const handleCompleteBtn = () => {
+        setIsComplete(!isComplete) 
+      setCheckBoxIcon(isComplete ? 'check_box_outline_blank' : 'check_box'   )            
     }
     
     return (
@@ -75,14 +80,14 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
                 <button onClick={handleCCCSubmit}>Submit CCC</button>
             </div>
             ) : (
-                <div>
+                <div className="flex">
                     <button onClick={() => {
                         setConcern('')
                         setCause('')
                         setCorrection('')
                         setIsEdit(true)
                         handleCCCSubmit()                        
-                        }} className="new-button">New CCC</button>
+                        }} className="newCCCButton">New CCC</button>
                     {ccc.map((cccObj, index) => (
                     <div className="cccDiv" key={index}>             
                         <button onClick={() => handleEditCCC(index)} className="edit-button">
@@ -92,6 +97,10 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
                         <p>Concern: {cccObj.concern}</p>
                         <p>Cause: {cccObj.cause}</p>
                         <p>Correction: {cccObj.correction}</p>
+                        <div>
+                            <button className="completeBtn" onClick={handleCompleteBtn}><span className="material-symbols-outlined">{checkBoxIcon}</span></button>
+                            
+                        </div>
                     </div>
                 ))}               
                 </div>

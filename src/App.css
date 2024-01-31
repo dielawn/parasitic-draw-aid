@@ -109,6 +109,7 @@ tr {
 }
 button {
   margin: 10px;
+  max-height:40px;
 }
 .cccDiv {
   border: solid white 1px;
@@ -116,14 +117,49 @@ button {
   font-size: 14px;
   text-align: start;
   position: relative;
+  max-width: 300px;
 }
 .cccOuterDiv {
   padding: 10px;
-  border: solid white 1px;
   position: absolute;
   right: 350px;
   top: 50px;
-  overflow: scroll;
-  min-width: 300px;
-  max-height: 300px;
+  overflow: hidden;
+  min-width: 600px;
+  min-height: 300px;
+}
+
+.material-symbols-outlined::before {
+  content: "\2713"; /* Unicode checkmark symbol or use your custom icon */
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 24px; /* Adjust the size of the custom icon */
+  visibility: hidden;
+}
+
+input[type="checkbox"]:checked + label .material-symbols-outlined::before {
+  visibility: visible;
+}
+
+label {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px; /* Adjust this value to control the spacing */
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+.completeBtn {
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+.completeBtn:focus {
+  outline: none;
+  border: none;
 }
