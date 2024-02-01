@@ -7,7 +7,7 @@ import { DrawTestApp } from './DrawApp'
 import { DocumentCodes } from './Codes'
 
 function App() {
-  const [customer, setCustomer] = useState(null)
+  const [customer, setCustomer] = useState('')
   const [vehicle, setVehicle] = useState(null)
   const [vehicleData, setVehicleData] = useState([])
   const [isConcern, setIsConcern] = useState(false)
@@ -27,26 +27,17 @@ function App() {
     console.log(checklist.length)
     checklist.map((item) => {
       console.log(item)
-    });
+    })
   }
 
-  // const handleEditCCC = (index) => {
-  //   <VehicleConcern 
-  //     setCCC={setCCC} 
-  //     setChecklist={setChecklist}  
-  //     ccc={ccc[index]} 
-  //     isEdit={isEdit} 
-  //     setIsEdit={setIsEdit}
-  //     handleTaskList={handleTaskList}
-  //   />
-  // }
+
 window.addEventListener('load', () => {
  
 })
   return (
     <div className='flexColumn'>     
     <div className='menuDiv flexColumn'>
-      <CustomerInfo />
+      <CustomerInfo customer={customer} setCustomer={setCustomer}/>
       
       {vehicle ? (
         <div>

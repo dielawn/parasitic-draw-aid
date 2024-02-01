@@ -34,7 +34,7 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
 
     const handleCompleteBtn = () => {
         setIsComplete(!isComplete) 
-      setCheckBoxIcon(isComplete ? 'check_box_outline_blank' : 'check_box'   )            
+        setCheckBoxIcon(isComplete ? 'check_box_outline_blank' : 'check_box'   )            
     }
     
     return (
@@ -98,8 +98,9 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
                         <p>Cause: {cccObj.cause}</p>
                         <p>Correction: {cccObj.correction}</p>
                         <div>
-                            <button className="completeBtn" onClick={handleCompleteBtn}><span className="material-symbols-outlined">{checkBoxIcon}</span></button>
-                            
+                            <button className="completeBtn" onClick={handleCompleteBtn}>
+                                <span className="material-symbols-outlined">{checkBoxIcon}</span>
+                            </button>                            
                         </div>
                     </div>
                 ))}               

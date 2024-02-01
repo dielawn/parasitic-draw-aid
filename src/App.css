@@ -127,7 +127,36 @@ button {
   overflow: hidden;
   min-width: 600px;
   min-height: 300px;
+  animation: close 500ms ease-in-out;
+  animation: expand 500ms ease-in-out;
+  transform-origin: top;
 }
+@keyframes close {
+  100% {
+  transform: scaleY(0);
+  }
+  
+  70% {
+  transform: scaleY(1.1);
+  }
+  
+  0% {
+  transform: scaleY(1);
+  }
+  }
+@keyframes expand {
+  0% {
+  transform: scaleY(0);
+  }
+  
+  70% {
+  transform: scaleY(1.1);
+  }
+  
+  100% {
+  transform: scaleY(1);
+  }
+  }
 
 .material-symbols-outlined::before {
   content: "\2713"; /* Unicode checkmark symbol or use your custom icon */

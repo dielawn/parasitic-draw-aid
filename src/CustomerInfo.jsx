@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
-export const CustomerInfo = () => {
-    const [customer, setCustomer] = useState('')
+export const CustomerInfo = ({customer, setCustomer}) => {
+    // const [customer, setCustomer] = useState('')
     const [isCustomer, setIsCustomer] = useState(false)
     const [email, setEmail] = useState('')
 
