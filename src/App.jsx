@@ -5,7 +5,8 @@ import { CustomerInfo } from './CustomerInfo'
 import { VehicleConcern } from './CCC'
 import { DrawTestApp } from './DrawApp'
 import { DocumentCodes } from './Codes'
-
+import { DVI } from './Dvi'
+ 
 function App() {
   const [customer, setCustomer] = useState('')
   const [vehicle, setVehicle] = useState(null)
@@ -19,6 +20,7 @@ function App() {
   const [checklist, setChecklist] = useState([])
   const [ccc, setCCC] = useState([],)
   const [isEdit, setIsEdit] = useState(true)
+  const [batTestResults, setBattTestResults] = useState([])  
   const addTask = (task) => {
     setChecklist((prevTasks) => [...prevTasks, task])
   }
@@ -87,13 +89,20 @@ window.addEventListener('load', () => {
         {isInspection && (
           <div>
             <h2>DVI</h2>
+            <DVI setBattTestResults={setBattTestResults} setCodeArray={setCodeArray}/>
           </div>
         )}
       </div>
       <div>
         {isDraw && (
           <div>
-            <DrawTestApp vehicle={vehicle} codeArray={codeArray} setCodeArray={setCodeArray} customer={customer}/>
+            <DrawTestApp 
+              vehicle={vehicle} 
+              codeArray={codeArray} 
+              setCodeArray={setCodeArray} 
+              customer={customer} 
+              batTestResults={batTestResults} 
+              setBattTestResults={setBattTestResults}/>
           </div>
         )}
       </div>

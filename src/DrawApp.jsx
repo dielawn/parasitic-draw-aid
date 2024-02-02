@@ -12,8 +12,8 @@ import { AddNote } from './AddNote'
 
 
 
-export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer}) => {
-    const [batTestResults, setBattTestResults] = useState([])   
+export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, batTestResults, setBattTestResults}) => {
+    // const [batTestResults, setBattTestResults] = useState([])   
     const [noteObj, setNoteObj] = useState([])
     const [drawResults, setDrawResults] = useState([]) 
     

@@ -1,6 +1,6 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import React from 'react'
-export const GeneratePDF = ({batTestResults, codeArray, drawResults, ampsLog, noteObj, vehicle}) => {
+export const GeneratePDF = ({batTestResults, codeArray, drawResults, ampsLog, noteObj, vehicle, customer}) => {
     const styles = StyleSheet.create({
         page: {
             flexDirection: 'row',
@@ -54,6 +54,9 @@ export const GeneratePDF = ({batTestResults, codeArray, drawResults, ampsLog, no
     return (
         <Document>
             <Page size="A4" style={styles.page}>    
+            {customer && (<View style={styles.section}>
+                <Text style={styles.header}>{customer}</Text>
+            </View>)}
            {vehicle && (<View style={styles.section}>
                 <Text style={styles.header}>Draw Test Results: {vehicle.vin.name}</Text>
                 <Text style={styles.text}>{vehicle.vin.vin}</Text>
