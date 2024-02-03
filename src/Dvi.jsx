@@ -5,7 +5,6 @@ import { DocumentCodes } from "./Codes";
 import { BatteryTest } from "./BatteryTest";
 
 
-
 export const DVI = ({setBattTestResults, setCodeArray}) => {
     const [isBattery, setIsBattery] = useState(true)
     const [isCEL, setIsCel] = useState(false)
@@ -15,9 +14,9 @@ export const DVI = ({setBattTestResults, setCodeArray}) => {
    return (
    <div>
     <h2>In Vehicle</h2>
-      {isWarningLight && (<WarningLights />)}
+     
       <h3>Warning Lights</h3>
-      {/* <WarningLights /> */}
+      <WarningLights />
       {isCEL && ( <DocumentCodes  setCodeArray={setCodeArray} />)}
       {isBattery && (<BatteryTest setBattTestResults={setBattTestResults} /> )}
       <ExteriorLigtCheck />
