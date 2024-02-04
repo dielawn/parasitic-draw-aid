@@ -18,7 +18,7 @@ export const Note = () => {
 
     const deleteNote = (index) => {
        const updatedNoteList = [...noteList]
-       updatedNoteList.splice(index, 1)
+       updatedNoteList.splice(index, 1) // Remove one element at the specified index
        setNoteList(updatedNoteList)
     }
 
@@ -52,11 +52,11 @@ export const Note = () => {
             <button onClick={handleNoteListChange}>
                 {isEdit ? "Update Note" : "Add Note"}
             </button>
-
+            {noteList.length >= 1 && <h2>Warninglight Notes: </h2>}
             {noteList.map((notes, index) => (
                 <div key={index}>
                     <p>{notes}</p>
-                    <button onClick={() => handleEditNote(index)} className="edit-button">
+                    <button onClick={() => handleEditNote(index)} className="material-symbols-outlined">
                         Edit
                     </button>
                     <button onClick={() => deleteNote(index)} >

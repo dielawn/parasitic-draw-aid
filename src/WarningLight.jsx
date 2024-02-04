@@ -4,8 +4,6 @@ import { Note } from "./Note"
 export const WarningLights = () => {
    
     const [warninglights, setWarningLights] = useState([])
-    
- 
   
     const handleLightSelect = (newLight) => {          
        if (warninglights.includes(newLight)) {
@@ -38,9 +36,7 @@ export const WarningLights = () => {
       })}
     </>
   )
-const handleNoteChange = (e) => {
-    setNote(e.target.value)
-}
+
 
     return (
         <div>
