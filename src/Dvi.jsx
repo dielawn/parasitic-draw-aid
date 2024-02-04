@@ -15,7 +15,7 @@ export const DVI = ({setBattTestResults, setCodeArray}) => {
    <div>
     <h2>In Vehicle</h2>
      
-      <h3>Warning Lights</h3>
+      
       <WarningLights />
       {isCEL && ( <DocumentCodes  setCodeArray={setCodeArray} />)}
       {isBattery && (<BatteryTest setBattTestResults={setBattTestResults} /> )}

@@ -10,6 +10,7 @@ export const ExteriorLigtCheck = () => {
         turnlamp: true,
         backuplamp: true,
     })
+    
     const [isFail, setIsFail] = useState(true)
     const [failLog, setFailLog] = useState([])
     const [isRepaired, setIsRepaired] = useState(true)
