@@ -1,26 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
-export const Note = () => {
-    const [note, setNote] = useState("")
-    const [noteList, setNoteList] = useState([])
-    const [isEdit, setIsEdit] = useState(false)
-    const [editIndex, setEditIndex] = useState(noteList.length)
-
+export const Note = ({noteList, setNoteList, setIsEdit, isEdit, editIndex, setEditIndex, note, setNote}) => {
+    
     const handleNoteChange = (e) => {
         setNote(e.target.value)
     }
 
-    const handleEditNote = (index) => {
-        setIsEdit(true)
-        setEditIndex(index)
-        setNote(noteList[index]) // Set the note to be edited
-    }
-
-    const deleteNote = (index) => {
-       const updatedNoteList = [...noteList]
-       updatedNoteList.splice(index, 1) // Remove one element at the specified index
-       setNoteList(updatedNoteList)
-    }
+   
 
     const handleNoteListChange = () => {
         if (isEdit) {
@@ -39,6 +25,22 @@ export const Note = () => {
         setEditIndex(noteList.length)
     }
 
+    useEffect(() => {
+        if(isEdit) {
+            const inputEl = document.getElementById('noteInput')
+            if (inputEl) {
+                inputEl.focus()
+            }            
+        } else {
+            setTimeout(() => {
+                const inputEl = document.getElementById("noteInput")
+                if (inputEl) {
+                   inputEl.focus()
+                }
+             }, 0)
+          }
+       }, [isEdit])
+
     return (
         <div>
             <label htmlFor="noteInput">Notes: </label>
@@ -52,18 +54,7 @@ export const Note = () => {
             <button onClick={handleNoteListChange}>
                 {isEdit ? "Update Note" : "Add Note"}
             </button>
-            {noteList.length >= 1 && <h2>Warninglight Notes: </h2>}
-            {noteList.map((notes, index) => (
-                <div key={index}>
-                    <p>{notes}</p>
-                    <button onClick={() => handleEditNote(index)} className="material-symbols-outlined">
-                        Edit
-                    </button>
-                    <button onClick={() => deleteNote(index)} >
-                        <span className="material-symbols-outlined">delete</span>
-                    </button>
-                </div>
-            ))}
+            
         </div>
     )
 }

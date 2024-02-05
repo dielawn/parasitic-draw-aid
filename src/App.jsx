@@ -21,6 +21,19 @@ function App() {
   const [ccc, setCCC] = useState([],)
   const [isEdit, setIsEdit] = useState(true)
   const [batTestResults, setBattTestResults] = useState([])  
+
+  const [warningData, setWarningData] = useState([])
+  const [batteryData, setBatteryData] = useState([])
+  const [extLightData, setExtLightData] = useState([])
+  const [inspectionData, setInspectionData] = useState([])
+
+const handleInspectionData = (newData) => {
+  setInspectionData((prevData) => [...prevData, newData])
+ for (let i = 0; i < inspectionData.length; i++) {
+  console.log(inspectionData)
+ }
+}
+
   const addTask = (task) => {
     setChecklist((prevTasks) => [...prevTasks, task])
   }
@@ -89,7 +102,11 @@ window.addEventListener('load', () => {
         {isInspection && (
           <div>
             <h2>DVI</h2>
-            <DVI setBattTestResults={setBattTestResults} setCodeArray={setCodeArray}/>
+            <DVI 
+              setBattTestResults={setBattTestResults} 
+              setCodeArray={setCodeArray}
+              batTestResults={batTestResults}
+              />
           </div>
         )}
       </div>

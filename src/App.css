@@ -127,10 +127,8 @@ button {
   overflow: hidden;
   min-width: 600px;
   min-height: 300px;
-  animation: close 500ms ease-in-out;
-  animation: expand 500ms ease-in-out;
-  transform-origin: top;
 }
+
 @keyframes close {
   100% {
   transform: scaleY(0);
@@ -165,6 +163,7 @@ button {
   top: 0;
   font-size: 24px; /* Adjust the size of the custom icon */
   visibility: hidden;
+  background-color: transparent;
 }
 
 input[type="checkbox"]:checked + label .material-symbols-outlined::before {
@@ -191,4 +190,26 @@ label {
 .completeBtn:focus {
   outline: none;
   border: none;
+}
+
+.complete {
+ 
+  color: green;
+  
+}
+
+.incomplete {
+  color: white;
+}
+
+.topicBtnDiv {
+ position: fixed;
+ top: 50px;
+ left: 50px;
+}
+
+.statusDiv {
+  position: absolute;
+  top: 150px;
+  left: 50px;
 }

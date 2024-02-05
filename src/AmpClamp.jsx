@@ -1,6 +1,7 @@
 import { getDateTime } from "./utils";
 import { useState } from "react";
 import React from 'react'
+
 export const AmpClampTest = ({setAmpsLog}) => {
     const [systemAmps, setSystemAmps] = useState('420')
     const handleResult = () => {

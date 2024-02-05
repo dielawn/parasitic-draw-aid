@@ -6,9 +6,7 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
     const [correction, setCorrection] = useState('')
     const [editIndex, setEditIndex] = useState(0)
     const [isComplete, setIsComplete] = useState(false)
-    const [checkBoxIcon, setCheckBoxIcon] = useState('check_box_outline_blank')
-  
-      
+    const [checkBoxIcon, setCheckBoxIcon] = useState('check_box_outline_blank')     
 
     const handleCCCSubmit = () => {
         //if this is an edit don't add another element just amend
@@ -38,8 +36,8 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
     }
     
     return (
-       <div className="cccOuterDiv">
-            {isEdit ? (<div><div className="concernDiv">
+       <div className='cccOuterDiv'>
+            {isEdit ? (<div><div className='concernDiv'>
                 <label htmlFor="concernInput">Concern:</label><br></br>
                 <textarea 
                     name="concernInput"
@@ -89,7 +87,7 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
                         handleCCCSubmit()                        
                         }} className="newCCCButton">New CCC</button>
                     {ccc.map((cccObj, index) => (
-                    <div className="cccDiv" key={index}>             
+                    <div className='cccDiv' key={index}>             
                         <button onClick={() => handleEditCCC(index)} className="edit-button">
                         <span className="material-symbols-outlined">edit</span>
                         </button>            
@@ -99,7 +97,7 @@ export const VehicleConcern = ({setCCC, setChecklist, handleTaskList, ccc, isEdi
                         <p>Correction: {cccObj.correction}</p>
                         <div>
                             <button className="completeBtn" onClick={handleCompleteBtn}>
-                                <span className="material-symbols-outlined">{checkBoxIcon}</span>
+                                <span className={isComplete ? 'material-symbols-outlined complete' : 'material-symbols-outlined incomplete'}>{checkBoxIcon}</span>
                             </button>                            
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { PLATE_TO_VIN_API_KEY } from "./config";
 import React from 'react'
+
 export const VinData = ({vehicle, vehicleData, setVehicleData}) => {
     useEffect(() => {
         console.log(vehicle.vin.vin)

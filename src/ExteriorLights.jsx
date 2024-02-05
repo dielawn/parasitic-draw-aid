@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Note } from "./Note";
 import { Lamp } from "./LampInput";
 
-export const ExteriorLigtCheck = () => {
+export const ExteriorLightCheck = () => {
     const [exteriorLights, setExteriorLights] = useState({
         headlamp: true,
         taillamp: true,
