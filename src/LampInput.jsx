@@ -53,6 +53,8 @@ console.log(partsList, noteList)
             </label>
             {!isPass && (
                  <>
+                    <fieldset>
+                        <legend>Status</legend>
                     <label htmlFor="repairedRadio">Replaced or Repaired</label>
                         <input 
                             type="radio" 
@@ -66,6 +68,7 @@ console.log(partsList, noteList)
                         id="notRepairedRadio"
                         checked={!isRepaired}
                         onChange={() => setIsRepaired(false)} />
+                    </fieldset>
                     {isRepaired ? (
                     <> 
                         <label htmlFor="bulbNumberInput">Bulb or Part # 
