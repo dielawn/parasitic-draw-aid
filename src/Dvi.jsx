@@ -1,11 +1,10 @@
 import React, {useState} from "react";
 import { WarningLights } from "./WarningLight";
 import { ExteriorLightCheck } from "./ExteriorLights";
-
 import { BatteryTest } from "./BatteryTest";
 
 
-export const DVI = ({setBattTestResults, batTestResults }) => {
+export const DVI = ({setBattTestResults, battTestResults}) => {
    //show or hide topic
     const [isWarningVis, setIsWarningVis] = useState(true)
     const [isBattVis, setIsBattVis] = useState(false)
@@ -19,7 +18,6 @@ export const DVI = ({setBattTestResults, batTestResults }) => {
     //inspection data
     const [warninglights, setWarningLights] = useState([])
     const [noteList, setNoteList] = useState([])
-   //  const [batTestResults, setBattTestResults] = useState([]) 
 
     //note component
     const [note, setNote] = useState("")    
@@ -44,40 +42,49 @@ export const DVI = ({setBattTestResults, batTestResults }) => {
    }
   
 
-   //
-   const toggleVisibility = (topic) => {
+   //show hide topics at menu btns
+   const toggleVisibility = (topic) => {     
       switch (topic) {
          case 'warning':
-            setIsWarningVis(!isWarningVis)
+            setIsWarningVis(!isWarningVis)            
             break;
          case 'battery':
-            setIsBattVis(!isBattVis)
+            setIsBattVis(!isBattVis)           
             break;
          case 'lights':
-            setIsExtLightVis(!isExtLightVis)
+            setIsExtLightVis(!isExtLightVis)           
             break;
          default:
             break;
       }
    }
-
+   //sets complete status of each topic
    const toggleStatus = (topic) => {
+      let topicVis = null
       switch (topic) {
          case 'warning':
             setIsWarningComplete(!isWarningComplete)
+            topicVis = isWarningVis
             break;
          case 'battery':
             setIsBattComplete(!isBattComplete)
+            topicVis = isBattVis
             break;
          case 'lights':
             setIsExtLightComplete(!isExtLightComplete)
+            topicVis = isExtLightVis
             break;
          default:
             break; 
       }
-      toggleVisibility(topic)
+      // if the topic is visible hide it
+      if (topicVis !== false) {
+         toggleVisibility(topic)
+      }
+      
    }
 
+   //status checkbox btn
    const StatusCheck = ({topic, topicTxt, isComplete}) =>  {
       return (
       <button key={topic} className="completeBtn" onClick={() => toggleStatus(topic)}>
@@ -119,19 +126,27 @@ export const DVI = ({setBattTestResults, batTestResults }) => {
   </div >
 
   <div className="topicDiv">
-   <Topic isVisable={isBattVis} component={ <BatteryTest setBattTestResults={setBattTestResults} /> } />
-   <Topic isVisable={isWarningVis} component={ <WarningLights 
-                                                   warninglights={warninglights} 
-                                                   setWarningLights={setWarningLights} 
-                                                   noteList={noteList}
-                                                   setNoteList={setNoteList}
-                                                   isEdit={isEdit}
-                                                   setIsEdit={setIsEdit}
-                                                   editIndex={editIndex}
-                                                   setEditIndex={setEditIndex}
-                                                   note={note}
-                                                   setNote={setNote}
-                                                /> } />
+   {/* battery */}
+   <Topic isVisable={isBattVis} component={ <BatteryTest setBattTestResults={setBattTestResults} toggleStatus={toggleStatus} /> } />
+   {/* warning lights */}
+   <Topic 
+      isVisable={isWarningVis} 
+      component={ 
+         <WarningLights 
+            warninglights={warninglights} 
+            setWarningLights={setWarningLights} 
+            noteList={noteList}
+            setNoteList={setNoteList}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            editIndex={editIndex}
+            setEditIndex={setEditIndex}
+            note={note}
+            setNote={setNote}
+         />
+      } 
+   />
+   {/* exterior lights */}
    <Topic isVisable={isExtLightVis} component={ <ExteriorLightCheck /> } />     
   </div>
       <div className="statusDiv">
@@ -141,7 +156,7 @@ export const DVI = ({setBattTestResults, batTestResults }) => {
             <StatusCheck topic='lights' isComplete={isExtLightComplete} topicTxt='Exterior Lights' />
          </div>
          <div>
-            
+         {warninglights.length >= 1 && (<h3>Warning Lights</h3>)}
          {warninglights.map((warning) => (
                <p key={warning}>{warning}</p>
             ))}
@@ -159,8 +174,11 @@ export const DVI = ({setBattTestResults, batTestResults }) => {
          </div>
          <div>
             
-         {batTestResults.map((result) => (
-            <p>{result}</p>
+         {battTestResults.map((result, index) => (
+            <div key={index}>
+               <h3>Battery Test {battTestResults.length}</h3>
+            <p >{result.volts} V {result.amps} CCA</p>
+            </div>
          ))}
       </div>
 

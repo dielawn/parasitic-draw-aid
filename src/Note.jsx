@@ -4,9 +4,7 @@ export const Note = ({noteList, setNoteList, setIsEdit, isEdit, editIndex, setEd
     
     const handleNoteChange = (e) => {
         setNote(e.target.value)
-    }
-
-   
+    }   
 
     const handleNoteListChange = () => {
         if (isEdit) {
@@ -26,14 +24,13 @@ export const Note = ({noteList, setNoteList, setIsEdit, isEdit, editIndex, setEd
     }
 
     useEffect(() => {
-        if(isEdit) {
-            const inputEl = document.getElementById('noteInput')
+        const inputEl = document.getElementById('noteInput')
+        if(isEdit) {            
             if (inputEl) {
                 inputEl.focus()
             }            
         } else {
-            setTimeout(() => {
-                const inputEl = document.getElementById("noteInput")
+            setTimeout(() => {              
                 if (inputEl) {
                    inputEl.focus()
                 }

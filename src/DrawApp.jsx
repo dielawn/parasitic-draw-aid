@@ -12,8 +12,8 @@ import { AddNote } from './AddNote'
 
 
 
-export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, batTestResults, setBattTestResults}) => {
-    // const [batTestResults, setBattTestResults] = useState([])   
+export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, battTestResults, setBattTestResults}) => {
+      
     const [noteObj, setNoteObj] = useState([])
     const [drawResults, setDrawResults] = useState([]) 
     
@@ -132,7 +132,7 @@ export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, batTest
        <div>
         
        <TestResults 
-        batTestResults={batTestResults} 
+        battTestResults={battTestResults} 
         codeArray={codeArray}
         drawResults={drawResults}
         timeLog={timeLog}
@@ -143,7 +143,7 @@ export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, batTest
        <div>
         <PDFDownloadLink className='pdfLink' document={
           <GeneratePDF 
-            batTestResults={batTestResults} 
+            battTestResults={battTestResults} 
             codeArray={codeArray}
             drawResults={drawResults}
             timeLog={timeLog}
@@ -160,7 +160,7 @@ export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, batTest
         {/* <button onClick={handleGeneratePDF}>Generate PDF</button>
         {showPDF && 
           <GeneratePDF 
-            batTestResults={batTestResults} 
+            battTestResults={battTestResults} 
             codeArray={codeArray}
             drawResults={drawResults}
             timeLog={timeLog}

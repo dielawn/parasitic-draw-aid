@@ -20,7 +20,7 @@ function App() {
   const [checklist, setChecklist] = useState([])
   const [ccc, setCCC] = useState([],)
   const [isEdit, setIsEdit] = useState(true)
-  const [batTestResults, setBattTestResults] = useState([])  
+  const [battTestResults, setBattTestResults] = useState([])  
 
   const [warningData, setWarningData] = useState([])
   const [batteryData, setBatteryData] = useState([])
@@ -105,7 +105,9 @@ window.addEventListener('load', () => {
             <DVI 
               setBattTestResults={setBattTestResults} 
               setCodeArray={setCodeArray}
-              batTestResults={batTestResults}
+              battTestResults={battTestResults}
+              
+
               />
           </div>
         )}
@@ -118,7 +120,7 @@ window.addEventListener('load', () => {
               codeArray={codeArray} 
               setCodeArray={setCodeArray} 
               customer={customer} 
-              batTestResults={batTestResults} 
+              battTestResults={batTestResults} 
               setBattTestResults={setBattTestResults}/>
           </div>
         )}

@@ -2,7 +2,7 @@ import { getDateTime } from "./utils"
 import { useState } from 'react'
 import React from "react"
 
-export const BatteryTest = ({setBattTestResults}) => {
+export const BatteryTest = ({setBattTestResults, toggleStatus}) => {
   const [batVolts, setBattVoltage] = useState(12.2)
   const [batAmps, setBatAmps] = useState(800)
    const handleResult = () => {
@@ -11,6 +11,7 @@ export const BatteryTest = ({setBattTestResults}) => {
       setBattTestResults(prevResults => [...prevResults, { volts: batVolts, amps: batAmps, timestamp: timestamp }])
       setBattVoltage('')
       setBatAmps('')
+      toggleStatus('battery')
     }
   }
 
@@ -31,7 +32,7 @@ export const BatteryTest = ({setBattTestResults}) => {
         id="battAmps"
         placeholder="Amps"
         value={batAmps}
-        onChange={(e) => { setBatAmps(e.target.value)}}>
+        onChange={(e) =>  setBatAmps(e.target.value)}>
         </input><br></br>
       <button type="button" onClick={handleResult}>Add Test Result</button>
     </div>
