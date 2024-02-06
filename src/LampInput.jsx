@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Note } from "./Note"
-
+import { LocationRadios } from "./LocationRadios";
 
 export const Lamp = ({ labelTxt, }) => {
     const [isPass, setIsPass] = useState(true)
@@ -10,6 +10,7 @@ export const Lamp = ({ labelTxt, }) => {
     const [partsList, setPartsList] = useState([])
     const [noteList, setNoteList] = useState([])
     const [bulbLocation, setBulbLocation] = useState('')
+   
      
 
     const handlePartsList = (newPart) => {
@@ -18,6 +19,7 @@ export const Lamp = ({ labelTxt, }) => {
     const handleNotesList = (newNote) => {
         setNoteList((prevNotes) => [...prevNotes, {note: newNote, location: bulbLocation}])
     }
+   
 
     const handleSubmit = () => {
         if (bulb !== '') {
@@ -54,7 +56,11 @@ console.log(partsList, noteList)
             {!isPass && (
                  <>
                     <fieldset>
-                        <legend>Status</legend>
+                        <legend>Repair Status</legend>
+                        <LocationRadios setBulbLocation={setBulbLocation} />
+
+                    
+                        
                     <label htmlFor="repairedRadio">Replaced or Repaired</label>
                         <input 
                             type="radio" 
