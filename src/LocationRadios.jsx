@@ -13,6 +13,10 @@ export const LocationRadios = ({setBulbLocation}) => {
       ...locations,
       [location]: !locations[location],
     })
+    Object.keys(locations).map((location) => {
+        console.log(location)
+    })
+   console.log(locations.LF)
   }
 
   return (

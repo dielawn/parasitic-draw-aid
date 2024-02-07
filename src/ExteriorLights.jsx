@@ -36,7 +36,7 @@ export const ExteriorLightCheck = () => {
             <h2>Exterior Light Check</h2>
             <form>
                 <fieldset>
-                    <legend>Exterior Lights</legend>
+                   
                     <Lamp labelTxt={`Headlights low/high beam`} />
                     <Lamp labelTxt={`Taillights`} />
                     <Lamp labelTxt={`Brakelights`} />

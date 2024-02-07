@@ -9,7 +9,7 @@ export const Lamp = ({ labelTxt, }) => {
     const [note, setNote] = useState('')
     const [partsList, setPartsList] = useState([])
     const [noteList, setNoteList] = useState([])
-    const [bulbLocation, setBulbLocation] = useState('')
+    const [bulbLocation, setBulbLocation] = useState([])
    
      
 
@@ -19,24 +19,28 @@ export const Lamp = ({ labelTxt, }) => {
     const handleNotesList = (newNote) => {
         setNoteList((prevNotes) => [...prevNotes, {note: newNote, location: bulbLocation}])
     }
-   
-
+    
     const handleSubmit = () => {
-        if (bulb !== '') {
-            handlePartsList(bulb)
-        }
-        if (note !== '') {
-            handleNotesList(note)
-        }
-console.log(partsList, noteList)
+        const resultsString = `${isPass ? 
+            ('Exterior lights pass visual inspection') : 
+            (`${bulbLocation.map((loc) => loc)} Fail ${isRepaired ? `Replaced ${bulb}` : `Unable to repair: ${note}`}`)} `
+
+            isPass ? `${handlePartsList(bulb)}` : ``
+            handleNotesList(resultsString)
+           
+            console.log(bulbLocation, partsList, noteList)
+            
+            
     }
 
 
     return (
         <div className="row">
+            <div>{partsList.map((parts, index) => (<p key={index}>{parts}</p>))}</div>
+            {/* <div>{noteList.map((notes, index) => (<p key={index}>{notes}</p>))}</div> */}
             <fieldset>
                 <legend>{labelTxt}</legend>
-        
+       
             <label htmlFor='passRadio' >Pass
                 <input 
                     type="radio"
@@ -55,7 +59,7 @@ console.log(partsList, noteList)
             </label>
             {!isPass && (
                  <>
-                    <fieldset>
+                   
                         <legend>Repair Status</legend>
                         <LocationRadios setBulbLocation={setBulbLocation} />
 
@@ -74,7 +78,7 @@ console.log(partsList, noteList)
                         id="notRepairedRadio"
                         checked={!isRepaired}
                         onChange={() => setIsRepaired(false)} />
-                    </fieldset>
+                  
                     {isRepaired ? (
                     <> 
                         <label htmlFor="bulbNumberInput">Bulb or Part # 
