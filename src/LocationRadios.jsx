@@ -1,34 +1,49 @@
 import React, { useState } from "react";
 
-export const LocationRadios = ({setBulbLocation}) => {
-  const [locations, setLocations] = useState({
-    LF: false,
-    RF: false,
-    LR: false,
-    RR: false,
-  })
+export const LocationRadios = ({setBulbLocation, bulbLocation}) => {
+    const [key, setKey] = useState('')
 
-  const handleLocation = (location) => {
-    setLocations({
-      ...locations,
-      [location]: !locations[location],
-    })
-    Object.keys(locations).map((location) => {
-        console.log(location)
-    })
-   console.log(locations.LF)
-  }
+    const handleLocation = (isFront, isAlsoRear) => {
+        const locations = ['LF', 'RF', 'LR', 'RR']
+        const front = ['LF', 'RF'] 
+        const rear = ['LR', 'RR'] 
+        const selectedLocations = isAlsoRear ? locations : isFront ? front : rear
+
+      setBulbLocation(selectedLocations)
+    }
+ 
+    const switchType = (type) => {
+        switch (type) {
+            case 'headlight':
+               handleLocation(true, false)            
+               break;
+            case 'taillight':
+                handleLocation(false, false)         
+               break;
+            case 'brakelight':
+               handleLocation(false, false)          
+               break;
+            case 'turnsignal':
+               handleLocation(true, true)          
+               break;
+            case 'backuplight':
+               handleLocation(false, false)          
+               break;
+            default:
+               break;
+         }
+    }
 
   return (
     <div>
-      {Object.keys(locations).map((location) => (
+      {bulbLocation.map((location) => (
         <label htmlFor={location} key={location}>
           {location}
           <input
             type="checkbox"
             id={location}
-            checked={locations[location]}
-            onChange={() => handleLocation(location)}
+            checked={key}
+            onChange={() => setKey((prevKey) =>!prevKey)}
           />
         </label>
       ))}

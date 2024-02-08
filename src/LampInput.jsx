@@ -10,6 +10,20 @@ export const Lamp = ({ labelTxt, }) => {
     const [partsList, setPartsList] = useState([])
     const [noteList, setNoteList] = useState([])
     const [bulbLocation, setBulbLocation] = useState([])
+
+    //headlight true, false
+    //taillight false, false
+    //brakelight false, false
+    //turnlight true, true
+    //backup false, false
+
+    const handleLocation = (isFront, isAlsoRear) => {
+        const locations = ['LF', 'RF', 'LR', 'RR']
+        const front = ['LF', 'RF'] 
+        const rear = ['LR', 'RR'] 
+
+      setBulbLocation(isAlsoRear ? locations : isFront ? front : rear)
+    }
    
      
 
@@ -23,7 +37,7 @@ export const Lamp = ({ labelTxt, }) => {
     const handleSubmit = () => {
         const resultsString = `${isPass ? 
             ('Exterior lights pass visual inspection') : 
-            (`${bulbLocation.map((loc) => loc)} Fail ${isRepaired ? `Replaced ${bulb}` : `Unable to repair: ${note}`}`)} `
+            (`${bulbLocation} Fail ${isRepaired ? `Replaced ${bulb}` : `Unable to repair: ${note}`}`)} `
 
             isPass ? `${handlePartsList(bulb)}` : ``
             handleNotesList(resultsString)
@@ -32,6 +46,8 @@ export const Lamp = ({ labelTxt, }) => {
             
             
     }
+
+    
 
 
     return (
