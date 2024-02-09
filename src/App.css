@@ -213,3 +213,8 @@ label {
   top: 150px;
   left: 50px;
 }
+
+.lightFormDiv {
+  max-width: 800px;
+  align-self: start;
+}

@@ -17,8 +17,79 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
     const [isExtLightComplete, setIsExtLightComplete] = useState(false)
 
     //inspection data
-    const [warninglights, setWarningLights] = useState([])
-    const [noteList, setNoteList] = useState([])
+    const [exteriorLights, setExteriorLights] = useState({
+      headlights:{
+         lf:{isWorking: true},
+         rf:{isWorking: true},
+      },
+      taillights:{
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      brakelights:{
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      backuplights:{
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      turn_lights:{
+         lf:{isWorking: true},
+         rf:{isWorking: true},
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      isFormVisable: false,
+      isFOrmComplete: false,
+    })
+
+    const [warninglights, setWarningLights] = useState({
+      cel:{
+         name: 'Check Engine Light',
+         isIllumintaed: false,
+         id: 'cel',
+      },
+      abs:{
+         name: 'ABS',
+         isIllumintaed: false,
+         id: 'abs'
+      },
+      airbag: {
+         name: 'Airbag',
+         isIllumintaed: false,
+         id: 'airbag',
+      },
+      trac: {
+         name: 'Traction Control',
+         isIllumintaed: false,
+         id: 'trac'
+      },
+      tpms: {
+         name: 'Tire Pressure Monitoring System',
+         isIllumintaed: false,
+         id: 'tpms'
+      },
+      maint: {
+         name: 'Maintenance Lights',
+         isIllumintaed: false,
+         id: 'maint'
+      },
+      other: {
+         name: '',
+         isIllumintaed: false,
+         id: 'other'
+      },
+      isFormVisable: true,
+      isFormComplete: false
+    })
+
+    const [noteList, setNoteList] = useState({
+      warninglights: [],
+      exteriorLights: [],
+      battTestResults: [],
+   
+    })
 
     //note component
     const [note, setNote] = useState("")    
@@ -131,19 +202,12 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
    <Topic isVisable={isBattVis} component={ <BatteryTest setBattTestResults={setBattTestResults} toggleStatus={toggleStatus} /> } />
    {/* warning lights */}
    <Topic 
-      isVisable={isWarningVis} 
+      isVisable={warninglights.isFormVisable} 
       component={ 
          <WarningLights 
             warninglights={warninglights} 
             setWarningLights={setWarningLights} 
-            noteList={noteList}
-            setNoteList={setNoteList}
-            isEdit={isEdit}
-            setIsEdit={setIsEdit}
-            editIndex={editIndex}
-            setEditIndex={setEditIndex}
-            note={note}
-            setNote={setNote}
+            
          />
       } 
    />
@@ -157,11 +221,11 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
             <StatusCheck topic='lights' isComplete={isExtLightComplete} topicTxt='Exterior Lights' />
          </div>
          <div>
-         {warninglights.length >= 1 && (<h3>Warning Lights</h3>)}
+         {/* {warninglights.length >= 1 && (<h3>Warning Lights</h3>)}
          {warninglights.map((warning) => (
                <p key={warning}>{warning}</p>
-            ))}
-         {noteList.map((notes, index) => (
+            ))} */}
+         {/* {noteList.map((notes, index) => (
         <div key={index}>
             <p>{notes}</p>
             <button onClick={() => handleEditNote(index)}>
@@ -171,7 +235,7 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
                <span  className="material-symbols-outlined">delete</span>   
             </button>
         </div>
-    ))}
+    ))} */}
          </div>
          <div>
             

@@ -62,12 +62,55 @@ export const Lamp = ({ labelTxt, }) => {
                 />
             </label>
             {!isPass && (
-                 <>
+                 <div className="lightFormDiv">
                    
                         <legend>Repair Status</legend>
-                        <LocationRadios setBulbLocation={setBulbLocation} bulbLocation={bulbLocation}/>
-
-                    
+                        {/* <LocationRadios setBulbLocation={setBulbLocation} bulbLocation={bulbLocation}/> */}                        
+                        
+                            
+                                <label htmlFor='lf' key='lf'>
+                                    LF
+                                    <input
+                                        type="checkbox"
+                                        id='lf'
+                                        checked={null}
+                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'LF'])}
+                                    />
+                                </label>
+                           
+                                <label htmlFor='rf' key='rf'>
+                                    RF
+                                    <input
+                                        type="checkbox"
+                                        id='rf'
+                                        checked={null}
+                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'RF'])}
+                                    />
+                                </label>
+                           
+                           
+                                <label htmlFor='rr' key='rr'>
+                                    RR
+                                    <input
+                                        type="checkbox"
+                                        id='rr'
+                                        checked={null}
+                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'RR'])}
+                                    />
+                                </label>
+                           
+                            
+                                <label htmlFor='lr' key='lr'>
+                                    LR
+                                    <input
+                                        type="checkbox"
+                                        id='lr'
+                                        checked={null}
+                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'LR'])}
+                                    />
+                                </label>
+                           
+                                        
                         
                     <label htmlFor="repairedRadio">Replaced or Repaired</label>
                         <input 
@@ -104,7 +147,7 @@ export const Lamp = ({ labelTxt, }) => {
                             onChange={(e) => setNote(e.target.value)} />
                     </>)}
                     <button type="button" onClick={handleSubmit}>Submit</button>
-                </>
+                </div>
             )}
             </fieldset>
         </div>
