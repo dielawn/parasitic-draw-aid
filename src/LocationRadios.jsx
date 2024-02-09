@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
 export const LocationRadios = ({setBulbLocation, bulbLocation}) => {
-    const [key, setKey] = useState('')
+    const [locations, setLocations] = useState(['LF', 'RF', 'LR', 'RR'])
+    const [possibleLocations, setPossibleLocations] = useState([])
+    
+
 
     const handleLocation = (isFront, isAlsoRear) => {
-        const locations = ['LF', 'RF', 'LR', 'RR']
-        const front = ['LF', 'RF'] 
-        const rear = ['LR', 'RR'] 
-        const selectedLocations = isAlsoRear ? locations : isFront ? front : rear
+        
+        const selectedLocations = isAlsoRear ? locations : isFront ? locations.slice(0, 2) : locations.slice(2, 4)
 
-      setBulbLocation(selectedLocations)
+        setPossibleLocations(selectedLocations)
     }
  
     const switchType = (type) => {
@@ -36,14 +37,14 @@ export const LocationRadios = ({setBulbLocation, bulbLocation}) => {
 
   return (
     <div>
-      {bulbLocation.map((location) => (
+      {possibleLocations.map((location) => (
         <label htmlFor={location} key={location}>
           {location}
           <input
             type="checkbox"
             id={location}
             checked={key}
-            onChange={() => setKey((prevKey) =>!prevKey)}
+            onChange={() => setPossibleLocations((prevKey) =>!prevKey)}
           />
         </label>
       ))}

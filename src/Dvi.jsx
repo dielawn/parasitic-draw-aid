@@ -40,47 +40,48 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
          lr:{isWorking: true},
          rr:{isWorking: true},
       },
-      isFormVisable: false,
+      isFormVisible: false,
       isFOrmComplete: false,
     })
 
     const [warninglights, setWarningLights] = useState({
       cel:{
          name: 'Check Engine Light',
-         isIllumintaed: false,
+         isIlluminated: false,
          id: 'cel',
       },
       abs:{
          name: 'ABS',
-         isIllumintaed: false,
+         isIlluminated: false,
          id: 'abs'
       },
       airbag: {
          name: 'Airbag',
-         isIllumintaed: false,
+         isIlluminated: false,
          id: 'airbag',
       },
       trac: {
          name: 'Traction Control',
-         isIllumintaed: false,
+         isIlluminated: false,
          id: 'trac'
       },
       tpms: {
          name: 'Tire Pressure Monitoring System',
-         isIllumintaed: false,
+         isIlluminated: false,
          id: 'tpms'
       },
       maint: {
          name: 'Maintenance Lights',
-         isIllumintaed: false,
+         isIlluminated: false,
          id: 'maint'
       },
       other: {
-         name: '',
-         isIllumintaed: false,
+         name: 'Other',
+         isIlluminated: false,
          id: 'other'
       },
-      isFormVisable: true,
+      warningNotes: [],
+      isFormVisible: true,
       isFormComplete: false
     })
 
@@ -202,7 +203,7 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
    <Topic isVisable={isBattVis} component={ <BatteryTest setBattTestResults={setBattTestResults} toggleStatus={toggleStatus} /> } />
    {/* warning lights */}
    <Topic 
-      isVisable={warninglights.isFormVisable} 
+      isVisable={warninglights.isFormVisible} 
       component={ 
          <WarningLights 
             warninglights={warninglights} 
