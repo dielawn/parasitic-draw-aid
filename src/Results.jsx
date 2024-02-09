@@ -4,16 +4,8 @@ export const TestResults = ({batTestResults, drawResults, codeArray, timeLog ,am
    
     return (
       <div className="resultsDiv">
-        <h3>Vehicle Info</h3>
-        {vehicle && (
-                  <div>
-                    <p>{vehicle.vin.year} {vehicle.vin.make} {vehicle.vin.model}</p>                    
-                    <p>{vehicle.vin.vin}</p>
-                    <p>{vehicle.vin.engine} {vehicle.vin.transmission}</p>
-                    <p> {vehicle.vin.driveType} {vehicle.vin.fuel} {vehicle.vin.style}</p>
-                    
-                </div>
-              )}
+      
+         
         <h3>Battery Test Results:</h3>
         {batTestResults.map((resultObj, index) => (
         <p key={index}>Battery Test: {resultObj.volts} volts, {resultObj.amps} cca <br></br>{resultObj.timestamp} </p>

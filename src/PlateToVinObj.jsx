@@ -52,7 +52,7 @@ export const PlateToVinConverter = ({setVehicle}) => {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
             /><br></br>
-            <label htmlFor="plateInput">Plate</label>
+            <label htmlFor="plateInput">Plate: </label>
             <input 
                 type="text"
                 id="plateInput"

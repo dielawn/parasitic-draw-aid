@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 const VehicleProfile = () => {
-    const [warninglights, setWarningLights] = useState(null)
+    
     const [inspectionInfo, setInspectionInfo] = useState({
         vehicle: {
             warninglights: {
@@ -297,5 +297,7 @@ const VehicleProfile = () => {
         }
     })
 
-
+    const updateInfo = (newState) => {
+       setInspectionInfo((prevState) => ({...prevState, ...newState}))
+    }
 }

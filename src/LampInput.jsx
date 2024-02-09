@@ -11,19 +11,7 @@ export const Lamp = ({ labelTxt, }) => {
     const [noteList, setNoteList] = useState([])
     const [bulbLocation, setBulbLocation] = useState([])
 
-    //headlight true, false
-    //taillight false, false
-    //brakelight false, false
-    //turnlight true, true
-    //backup false, false
-
-    const handleLocation = (isFront, isAlsoRear) => {
-        const locations = ['LF', 'RF', 'LR', 'RR']
-        const front = ['LF', 'RF'] 
-        const rear = ['LR', 'RR'] 
-
-      setBulbLocation(isAlsoRear ? locations : isFront ? front : rear)
-    }
+    
    
      
 
@@ -77,7 +65,7 @@ export const Lamp = ({ labelTxt, }) => {
                  <>
                    
                         <legend>Repair Status</legend>
-                        <LocationRadios setBulbLocation={setBulbLocation} />
+                        <LocationRadios setBulbLocation={setBulbLocation} bulbLocation={bulbLocation}/>
 
                     
                         

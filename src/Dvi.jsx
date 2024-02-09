@@ -4,6 +4,7 @@ import { ExteriorLightCheck } from "./ExteriorLights";
 import { BatteryTest } from "./BatteryTest";
 
 
+
 export const DVI = ({setBattTestResults, battTestResults}) => {
    //show or hide topic
     const [isWarningVis, setIsWarningVis] = useState(true)
