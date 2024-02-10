@@ -6,45 +6,8 @@ import { BatteryTest } from "./BatteryTest";
 
 
 export const DVI = ({setBattTestResults, battTestResults}) => {
-   //show or hide topic
-    const [isWarningVis, setIsWarningVis] = useState(true)
-    const [isBattVis, setIsBattVis] = useState(false)
-    const [isExtLightVis, setIsExtLightVis] = useState(false)
 
-    //topic status
-    const [isWarningComplete, setIsWarningComplete] = useState(false)
-    const [isBattComplete, setIsBattComplete] = useState(false)
-    const [isExtLightComplete, setIsExtLightComplete] = useState(false)
-
-    //inspection data
-    const [exteriorLights, setExteriorLights] = useState({
-      headlights:{
-         lf:{isWorking: true},
-         rf:{isWorking: true},
-      },
-      taillights:{
-         lr:{isWorking: true},
-         rr:{isWorking: true},
-      },
-      brakelights:{
-         lr:{isWorking: true},
-         rr:{isWorking: true},
-      },
-      backuplights:{
-         lr:{isWorking: true},
-         rr:{isWorking: true},
-      },
-      turn_lights:{
-         lf:{isWorking: true},
-         rf:{isWorking: true},
-         lr:{isWorking: true},
-         rr:{isWorking: true},
-      },
-      isFormVisible: false,
-      isFOrmComplete: false,
-    })
-
-    const [warninglights, setWarningLights] = useState({
+   const [warninglights, setWarningLights] = useState({
       cel:{
          name: 'Check Engine Light',
          isIlluminated: false,
@@ -76,28 +39,79 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
          id: 'maint'
       },
       other: {
-         name: 'Other',
+         name: 'Notes',
          isIlluminated: false,
          id: 'other'
       },
-      warningNotes: [],
+      notes: [],
       isFormVisible: true,
       isFormComplete: false
     })
-
-    const [noteList, setNoteList] = useState({
-      warninglights: [],
-      exteriorLights: [],
-      battTestResults: [],
    
+   const [batteryTest, setBatteryTest] = useState({
+      volts: '12.2',
+      cca: '800',
+      notes: [],
+      isFormVisible: false,
+      isFormComplete: false,
+   })
+    const [isBattVis, setIsBattVis] = useState(false)
+    const [isExtLightVis, setIsExtLightVis] = useState(false)
+
+    //topic status
+  
+    const [isBattComplete, setIsBattComplete] = useState(false)
+    const [isExtLightComplete, setIsExtLightComplete] = useState(false)
+
+    //inspection data
+    const [exteriorLights, setExteriorLights] = useState({
+      headlights:{
+         lf:{isWorking: true},
+         rf:{isWorking: true},
+      },
+      taillights:{
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      brakelights:{
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      backuplights:{
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      turn_lights:{
+         lf:{isWorking: true},
+         rf:{isWorking: true},
+         lr:{isWorking: true},
+         rr:{isWorking: true},
+      },
+      isFormVisible: false,
+      isFormComplete: false,
     })
 
-    //note component
-    const [note, setNote] = useState("")    
-    const [isEdit, setIsEdit] = useState(false)
-    const [editIndex, setEditIndex] = useState(noteList.length)
+    
+
+   
     const [isComplete, setIsComplete] = useState(false)
    
+    //return a string of any illuminated lights or notes.
+    const WarningLightData = () => (
+      <div>
+         {Object.values(warninglights).map((option) => {
+            //check if illuminated
+            if (option.isIlluminated) {
+               return <p key={option.id}>{option.name}</p>
+            }
+            return null
+         })}
+         {Object.values(warninglights.notes).map((notes, index) => (
+            <p key={index}> {notes.note}</p>
+         ))}
+      </div>
+    )
+
     //note functions edit & delete
    const handleEditNote = (index) => {
       setIsEdit(true)
@@ -119,10 +133,16 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
    const toggleVisibility = (topic) => {     
       switch (topic) {
          case 'warning':
-            setIsWarningVis(!isWarningVis)            
+            setWarningLights((prevState) => ({
+               ...prevState,
+               isFormVisible: !prevState.isFormVisible,
+             }))            
             break;
          case 'battery':
-            setIsBattVis(!isBattVis)           
+            setBatteryTest((prevState) => ({
+               ...prevState,
+               isFormVisible: !prevState.isFormVisible,
+             }))               
             break;
          case 'lights':
             setIsExtLightVis(!isExtLightVis)           
@@ -136,12 +156,18 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
       let topicVis = null
       switch (topic) {
          case 'warning':
-            setIsWarningComplete(!isWarningComplete)
-            topicVis = isWarningVis
+            setWarningLights((prevState) => ({
+               ...prevState,
+               isFormComplete: !prevState.isFormComplete,
+             }))    
+            topicVis = warninglights.isFormVisible
             break;
          case 'battery':
-            setIsBattComplete(!isBattComplete)
-            topicVis = isBattVis
+            setWarningLights((prevState) => ({
+               ...prevState,
+               isFormComplete: !prevState.isFormComplete,
+             }))    
+            topicVis = batteryTest.isFormVisible
             break;
          case 'lights':
             setIsExtLightComplete(!isExtLightComplete)
@@ -170,20 +196,20 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
    }
    
 
-   const Btn = ({topic, btnTxt, isVisable}) => {
+   const Btn = ({topic, btnTxt, isVisible}) => {
       return (     
          <button className="inspBtn" onClick={() => toggleVisibility(topic)}>
          {btnTxt}
          <span className="material-symbols-outlined">
-            {isVisable ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
+            {isVisible ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
          </span>
          </button>        
       )
    }
 
-   const Topic = ({isVisable, component}) => {
+   const Topic = ({isVisible, component}) => {
       return (
-      <div className={`inspTopic ${isVisable ? '' : 'hide'}`}>
+      <div className={`inspTopic ${isVisible ? '' : 'hide'}`}>
          {component}
       </div>
       )
@@ -193,17 +219,17 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
    <div>
 
   <div className="topicBtnDiv">
-   <Btn topic='warning' btnTxt='Warning Lights' isVisable={isWarningVis} />
-   <Btn topic='battery' btnTxt='Battery' isVisable={isBattVis} />
-   <Btn topic='lights' btnTxt='Exterior Lights' isVisable={isExtLightVis} />     
+   <Btn topic='warning' btnTxt='Warning Lights' isVisible={warninglights.isFormVisible} />
+   <Btn topic='battery' btnTxt='Battery' isVisible={batteryTest.isFormVisible} />
+   <Btn topic='lights' btnTxt='Exterior Lights' isVisible={isExtLightVis} />     
   </div >
 
   <div className="topicDiv">
    {/* battery */}
-   <Topic isVisable={isBattVis} component={ <BatteryTest setBattTestResults={setBattTestResults} toggleStatus={toggleStatus} /> } />
+   <Topic isVisible={batteryTest.isFormVisible} component={ <BatteryTest setBattTestResults={setBattTestResults} toggleStatus={toggleStatus} /> } />
    {/* warning lights */}
    <Topic 
-      isVisable={warninglights.isFormVisible} 
+      isVisible={warninglights.isFormVisible} 
       component={ 
          <WarningLights 
             warninglights={warninglights} 
@@ -213,30 +239,16 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
       } 
    />
    {/* exterior lights */}
-   <Topic isVisable={isExtLightVis} component={ <ExteriorLightCheck /> } />     
+   <Topic isVisible={isExtLightVis} component={ <ExteriorLightCheck /> } />     
   </div>
       <div className="statusDiv">
          <div>
-            <StatusCheck topic='warning' isComplete={isWarningComplete} topicTxt='Warning Lights' />
-            <StatusCheck topic='battery' isComplete={isBattComplete} topicTxt='Battery Test' />
+            <StatusCheck topic='warning' isComplete={warninglights.isFormComplete} topicTxt='Warning Lights' />
+            <StatusCheck topic='battery' isComplete={batteryTest.isFormComplete} topicTxt='Battery Test' />
             <StatusCheck topic='lights' isComplete={isExtLightComplete} topicTxt='Exterior Lights' />
          </div>
          <div>
-         {/* {warninglights.length >= 1 && (<h3>Warning Lights</h3>)}
-         {warninglights.map((warning) => (
-               <p key={warning}>{warning}</p>
-            ))} */}
-         {/* {noteList.map((notes, index) => (
-        <div key={index}>
-            <p>{notes}</p>
-            <button onClick={() => handleEditNote(index)}>
-               <span  className="material-symbols-outlined">edit</span>  
-            </button>
-            <button onClick={() => deleteNote(index)} >
-               <span  className="material-symbols-outlined">delete</span>   
-            </button>
-        </div>
-    ))} */}
+           {warninglights.isFormComplete && <WarningLightData />}
          </div>
          <div>
             

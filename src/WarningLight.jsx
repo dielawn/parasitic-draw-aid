@@ -3,13 +3,10 @@ import React, {useState} from "react";
 import { AddNote } from "./AddNote";
 
 export const WarningLights = ({ warninglights, setWarningLights }) => {
-const [isOther, setIsOther] = useState(false)
+
   const handleLightSelect = (optionId, ) => {
   
-    if (optionId === 'other') {
-      //open a text input and submit button
-      setIsOther(true)
-    }
+
     setWarningLights((prevState) => ({
       ...prevState,
       [optionId]: {
@@ -38,15 +35,13 @@ const [isOther, setIsOther] = useState(false)
                 checked={option.isIlluminated}
                 onChange={() => handleLightSelect(option.id, option)}
               />
-               <>{isOther && <AddNote 
-                                 setNoteObj={warninglights.notes}
-                                  />}</>
-            </div>
-            
-          )
-        
-        
+             
+            </div>            
+          )     
       })}
+      <> 
+        {warninglights.other.isIlluminated && <AddNote setNoteObj={setWarningLights} />} 
+      </>
     </div>
   )
 }

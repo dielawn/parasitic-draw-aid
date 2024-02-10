@@ -7,9 +7,13 @@ export const AddNote = ({ setNoteObj}) => {
     
     const handleNotes = () => {
         const timestamp = getDateTime()
-        setNoteObj(prevNotes => [...prevNotes, {note: note, timestamp: timestamp}])
+        setNoteObj((prevState) => ({
+            ...prevState,
+            notes: [...prevState.notes, { note: note, timestamp: timestamp }]
+          }))          
         setNote('')
     }
+   
 
     return (
        <div>
