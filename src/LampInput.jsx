@@ -1,130 +1,94 @@
 import React, { useState, useEffect } from "react"
-import { Note } from "./Note"
-import { LocationRadios } from "./LocationRadios";
 
-export const Lamp = ({ labelTxt, }) => {
-    const [isPass, setIsPass] = useState(true)
-    const [isRepaired, setIsRepaired] = useState(true)
-    const [bulb, setBulb] = useState('')
-    const [note, setNote] = useState('')
-    const [partsList, setPartsList] = useState([])
-    const [noteList, setNoteList] = useState([])
-    const [bulbLocation, setBulbLocation] = useState([])
+import { AddNote } from "./AddNote";
 
-    
-   
+export const Lamp = ({ exteriorLights, setExteriorLights, }) => {
      
+    const handleBulbNum = (optionId, partNum) => {
+        setExteriorLights((prevState) => ({
+            ...prevState,
+            [optionId]: {
+                ...prevState[optionId],
+                bulb_num: partNum,                
+            }
+        }))
+    }
+    // toggles isWorking or isRepaired
+    const toggleState = (optionId, property) => {
+        setExteriorLights((prevState) => ({
+            ...prevState,
+            [optionId]: {
+                ...prevState[optionId],
+                [property]: !prevState[optionId][property]
+            }
+        }))
+    }
 
-    const handlePartsList = (newPart) => {
-        setPartsList((prevParts) => [...prevParts, {bulb: newPart, location: bulbLocation}])
-    }
-    const handleNotesList = (newNote) => {
-        setNoteList((prevNotes) => [...prevNotes, {note: newNote, location: bulbLocation}])
-    }
-    
-    const handleSubmit = () => {
-        const resultsString = `${isPass ? 
+    const handleSubmit = (key) => {
+        const resultsString = `${key.isRepaired ? 
             ('Exterior lights pass visual inspection') : 
-            (`${bulbLocation} Fail ${isRepaired ? `Replaced ${bulb}` : `Unable to repair: ${note}`}`)} `
+            (`${bulbLocation} Fail ${key.isRepaired ? `Replaced ${bulb}` : `Unable to repair: ${note}`}`)} `
 
-            isPass ? `${handlePartsList(bulb)}` : ``
-            handleNotesList(resultsString)
-           
-            console.log(bulbLocation, partsList, noteList)
-            
-            
+            //push notes to exteriorLights.notes
+            setExteriorLights((prevState) => ({
+                ...prevState,
+               [notes]: [...prevState.notes, resultsString]
+            }))          
+           //push bulb part numbers to exteriorList.parts
+           setExteriorLights((prevState) => ({
+            ...prevState,
+           [parts]: [...prevState.parts, bulb]
+        }))  
+
     }
-
-    
-
 
     return (
         <div className="row">
-            <div>{partsList.map((parts, index) => (<p key={index}>{parts}</p>))}</div>
-            {/* <div>{noteList.map((notes, index) => (<p key={index}>{notes}</p>))}</div> */}
-            <fieldset>
-                <legend>{labelTxt}</legend>
+            {Object.keys(exteriorLights).map((key) => {
+
+                if (key.id == undefined) {
+                    return null
+                }
+                return (
+                    <div>
+                          <fieldset>
+                <legend>{key.name}</legend>
        
             <label htmlFor='passRadio' >Pass
                 <input 
                     type="radio"
                     id='passRadio'
-                    checked={isPass}
-                    onChange={() => setIsPass(true)}
+                    checked={key.isWorking}
+                    onChange={() => key.isWorking}
                 />
             </label>
             <label htmlFor='failRadio' >Fail
                 <input 
                     type="radio"
                     id='failRadio'
-                    checked={!isPass}
-                    onChange={() => setIsPass(false)}
+                    checked={!key.isWorking}
+                    onChange={() => toggleState(key, key.isWorking)}
                 />
             </label>
-            {!isPass && (
+            {!key.isWorking && (
                  <div className="lightFormDiv">
                    
                         <legend>Repair Status</legend>
-                        {/* <LocationRadios setBulbLocation={setBulbLocation} bulbLocation={bulbLocation}/> */}                        
-                        
-                            
-                                <label htmlFor='lf' key='lf'>
-                                    LF
-                                    <input
-                                        type="checkbox"
-                                        id='lf'
-                                        checked={null}
-                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'LF'])}
-                                    />
-                                </label>
-                           
-                                <label htmlFor='rf' key='rf'>
-                                    RF
-                                    <input
-                                        type="checkbox"
-                                        id='rf'
-                                        checked={null}
-                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'RF'])}
-                                    />
-                                </label>
-                           
-                           
-                                <label htmlFor='rr' key='rr'>
-                                    RR
-                                    <input
-                                        type="checkbox"
-                                        id='rr'
-                                        checked={null}
-                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'RR'])}
-                                    />
-                                </label>
-                           
-                            
-                                <label htmlFor='lr' key='lr'>
-                                    LR
-                                    <input
-                                        type="checkbox"
-                                        id='lr'
-                                        checked={null}
-                                        onChange={() => setBulbLocation((prevLoc) => [...prevLoc, 'LR'])}
-                                    />
-                                </label>
-                           
-                                        
+                        {/* <LocationRadios setBulbLocation={setBulbLocation} bulbLocation={bulbLocation}/> */}                                             
                         
                     <label htmlFor="repairedRadio">Replaced or Repaired</label>
                         <input 
                             type="radio" 
                             id="repairedRadio"
-                            checked={isRepaired}
-                            onChange={() => setIsRepaired(true)}
+                            checked={key.isRepaired}
+                            onChange={() => toggleState(key, key.isRepaired)}
                         />
                     <label htmlFor="notRepairedRadio">Unable to Repair</label>
                     <input 
                         type="radio"
                         id="notRepairedRadio"
-                        checked={!isRepaired}
-                        onChange={() => setIsRepaired(false)} />
+                        checked={!key.isRepaired}
+                        onChange={() => toggleState(key, key.isRepaired)} />
                   
                     {isRepaired ? (
                     <> 
@@ -134,22 +98,19 @@ export const Lamp = ({ labelTxt, }) => {
                             id="bulbNumberInput"
                             placeholder="part #"
                             value={bulb}
-                            onChange={(e) => {setBulb(e.target.value)}} />
+                            onChange={(e) => {handleBulbNum(key, e.target.value)}} />
                             </label>
                     </>) : (
                     <> 
-                        <label htmlFor="reasonInput">Reason: </label>
-                        <input 
-                            type="text"
-                            id="reasonInput"
-                            placeholder="Notes"
-                            value={note}
-                            onChange={(e) => setNote(e.target.value)} />
+                        <AddNote setNoteObj={exteriorLights.notes} />
                     </>)}
-                    <button type="button" onClick={handleSubmit}>Submit</button>
+                    <button type="button" onClick={() => handleSubmit(key)}>Submit</button>
                 </div>
             )}
             </fieldset>
+                    </div>
+                )
+            })}         
         </div>
     )
 }

@@ -27,7 +27,7 @@ export const BatteryTest = ({setBatteryTest}) => {
   return (
     <div className='alignRight'>
       <h2>Battery Test</h2>
-      
+      <AddNote setNoteObj={setBatteryTest} />
       <label htmlFor="battVolts">Voltage: </label>
       <input
         type="text"
@@ -61,7 +61,7 @@ export const BatteryTest = ({setBatteryTest}) => {
         <button type="submit" onClick={(event) =>handleResult(event)}>Add Test Result</button>
       
         
-        <AddNote setNoteObj={setBatteryTest} />
+      
        
       
     </div>

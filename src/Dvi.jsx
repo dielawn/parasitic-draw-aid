@@ -2,12 +2,9 @@ import React, {useState} from "react";
 import { WarningLights } from "./WarningLight";
 import { ExteriorLightCheck } from "./ExteriorLights";
 import { BatteryTest } from "./BatteryTest";
-import { AddNote } from "./AddNote";
 
-
-
-export const DVI = ({setBattTestResults, battTestResults}) => {
-
+export const DVI = () => {
+   //inspection data
    const [warninglights, setWarningLights] = useState({
       cel:{
          name: 'Check Engine Light',
@@ -50,53 +47,115 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
     })
    
    const [batteryTest, setBatteryTest] = useState({
-      volts: '12.2',
-      cca: '800',
       notes: [],
       isPass: true,
       isFormVisible: false,
       isFormComplete: false,
    })
    
-    const [isExtLightVis, setIsExtLightVis] = useState(false)
-
-    //topic status
-    const [isExtLightComplete, setIsExtLightComplete] = useState(false)
-
-    //inspection data
-    const [exteriorLights, setExteriorLights] = useState({
+   const [exteriorLights, setExteriorLights] = useState({
       headlights:{
-         lf:{isWorking: true},
-         rf:{isWorking: true},
+         bulb_num: null,
+         lf:{
+            name: 'Left front headlight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'lfhl',
+         },
+         rf:{
+            name: 'Right front headlight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'rfhl',
+         },
       },
       taillights:{
-         lr:{isWorking: true},
-         rr:{isWorking: true},
+         bulb_num: null,
+         lr:{
+            name: 'Left rear taillight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'lrtl',
+         },
+         rr:{
+            name: 'Right rear taillight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'rrtl',
+         },
+      },
+      taglights:{
+         bulb_num: null,
+         name: 'License plate lights',
+         isWorking: true,
+         isRepaired: null,
+         id: 'tagl',
       },
       brakelights:{
-         lr:{isWorking: true},
-         rr:{isWorking: true},
+         bulb_num: null,
+         lr:{
+            name: 'Left rear brakelight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'lrbl',
+         },
+         rr:{
+            name: 'Right rear brakelight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'rrbl',
+         },
       },
       backuplights:{
-         lr:{isWorking: true},
-         rr:{isWorking: true},
+         bulb_num: null,
+         lr:{
+            name: 'Left rear backuplight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'lrbu',
+         },
+         rr:{
+            name: 'Right rear backuplight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'rrbu',
+         },
       },
       turn_lights:{
-         lf:{isWorking: true},
-         rf:{isWorking: true},
-         lr:{isWorking: true},
-         rr:{isWorking: true},
+         bulb_num: null,
+         lf:{
+            name: 'Left front turnlight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'lfts',
+         },
+         rf:{
+            name: 'Right front turnlight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'rfts',
+         },
+         lr:{
+            name: 'Left rear turnlight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'lrts',
+         },
+         rr:{
+            name: 'Right rear turnlight',
+            isWorking: true,
+            isRepaired: null,
+            id: 'rrts',
+         },
       },
+      notes: [],
+      parts: [],
       isFormVisible: false,
       isFormComplete: false,
-    })
+   })
 
-    
-
-   
-    const [isComplete, setIsComplete] = useState(false)
-   
-    //return a string of any illuminated lights or notes.
+       
+    //return a html elements for any illuminated lights or notes.
     const WarningLightData = () => (
       <div className="dataDiv">
          <h3>Warning Lights</h3>
@@ -113,6 +172,7 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
       </div>
     )
 
+    //return battery test results or notes
     const BatteryTestData = ({ batteryTest }) => {
       // if (!batteryTest) return null
       return (
@@ -123,7 +183,7 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
           <p key={index}>{note.note}</p>       
         ))}
       </div>
-     ) };
+     ) }
 
     //note functions edit & delete
    const handleEditNote = (index) => {
@@ -135,10 +195,6 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
      const updatedNoteList = [...noteList]
      updatedNoteList.splice(index, 1) // Remove one element at the specified index
      setNoteList(updatedNoteList)
-   }
-
-   const handleCompleteBtn = () => {
-      setIsComplete(!isComplete)                
    }
   
 
@@ -158,7 +214,10 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
              }))               
             break;
          case 'lights':
-            setIsExtLightVis(!isExtLightVis)           
+            setExteriorLights((prevState) => ({
+               ...prevState,
+               isFormVisible: !prevState.isFormVisible,
+             }))                   
             break;
          default:
             break;
@@ -183,8 +242,11 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
             topicVis = batteryTest.isFormVisible
             break;
          case 'lights':
-            setIsExtLightComplete(!isExtLightComplete)
-            topicVis = isExtLightVis
+            setExteriorLights((prevState) => ({
+               ...prevState,
+               isFormComplete: !prevState.isFormComplete,
+             }))    
+            topicVis = exteriorLights.isFormVisible
             break;
          default:
             break; 
@@ -234,36 +296,50 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
   <div className="topicBtnDiv">
    <Btn topic='warning' btnTxt='Warning Lights' isVisible={warninglights.isFormVisible} />
    <Btn topic='battery' btnTxt='Battery' isVisible={batteryTest.isFormVisible} />
-   <Btn topic='lights' btnTxt='Exterior Lights' isVisible={isExtLightVis} />     
+   <Btn topic='lights' btnTxt='Exterior Lights' isVisible={exteriorLights.isFormVisible} />     
   </div >
 
   <div className="topicDiv">
    {/* battery */}
-   <Topic isVisible={batteryTest.isFormVisible} component={ <BatteryTest setBatteryTest={setBatteryTest}/> } />
+   <Topic 
+      isVisible={batteryTest.isFormVisible} 
+      component={ 
+         <BatteryTest setBatteryTest={setBatteryTest}/> 
+      } 
+   />
    {/* warning lights */}
    <Topic 
       isVisible={warninglights.isFormVisible} 
       component={ 
          <WarningLights 
             warninglights={warninglights} 
-            setWarningLights={setWarningLights} 
-            
+            setWarningLights={setWarningLights}             
          />
       } 
    />
    {/* exterior lights */}
-   <Topic isVisible={isExtLightVis} component={ <ExteriorLightCheck /> } />     
+   <Topic 
+      isVisible={exteriorLights.isFormVisible} 
+      component={ 
+         <ExteriorLightCheck  
+            exteriorLights={exteriorLights} 
+            setExteriorLights={setExteriorLights}
+         />
+      } 
+   />     
   </div>
       <div className="statusDiv">
          <div>
             <StatusCheck topic='warning' isComplete={warninglights.isFormComplete} topicTxt='Warning Lights' />
             <StatusCheck topic='battery' isComplete={batteryTest.isFormComplete} topicTxt='Battery Test' />
-            <StatusCheck topic='lights' isComplete={isExtLightComplete} topicTxt='Exterior Lights' />
+            <StatusCheck topic='lights' isComplete={exteriorLights.isFormComplete} topicTxt='Exterior Lights' />
          </div>
          <div className="resultsDiv">
            {warninglights.isFormComplete && <WarningLightData />}
         
             {batteryTest.isFormComplete && <BatteryTestData batteryTest={batteryTest}/>}        
+            
+            {/* {exteriorLights.isFormComplete && <ExteriorLightData />} */}
          </div>
 
       <div>
