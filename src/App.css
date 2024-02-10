@@ -58,12 +58,13 @@
 }
 .resultsDiv {
   padding: 50px;
-  border: solid 1px white;
+  overflow-x: hidden;
   position: absolute;
-  bottom: 50px;
-  max-height: 250px;
-  overflow: scroll;
-  left: 35%;
+  top: 50px;
+  max-height: 850px;
+  min-width: 300px;
+  overflow-y: scroll;
+  left: 250px;
 }
 .alignLeft {
   text-align: left;
@@ -206,15 +207,21 @@ label {
  position: fixed;
  top: 50px;
  left: 50px;
+ 
 }
 
 .statusDiv {
   position: absolute;
   top: 150px;
   left: 50px;
+  max-width: 200px;
 }
 
 .lightFormDiv {
   max-width: 800px;
   align-self: start;
+}
+.topicDiv{
+  position: relative;
+  left: 200px;
 }

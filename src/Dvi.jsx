@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { WarningLights } from "./WarningLight";
 import { ExteriorLightCheck } from "./ExteriorLights";
 import { BatteryTest } from "./BatteryTest";
+import { AddNote } from "./AddNote";
 
 
 
@@ -52,15 +53,14 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
       volts: '12.2',
       cca: '800',
       notes: [],
+      isPass: true,
       isFormVisible: false,
       isFormComplete: false,
    })
-    const [isBattVis, setIsBattVis] = useState(false)
+   
     const [isExtLightVis, setIsExtLightVis] = useState(false)
 
     //topic status
-  
-    const [isBattComplete, setIsBattComplete] = useState(false)
     const [isExtLightComplete, setIsExtLightComplete] = useState(false)
 
     //inspection data
@@ -98,7 +98,8 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
    
     //return a string of any illuminated lights or notes.
     const WarningLightData = () => (
-      <div>
+      <div className="dataDiv">
+         <h3>Warning Lights</h3>
          {Object.values(warninglights).map((option) => {
             //check if illuminated
             if (option.isIlluminated) {
@@ -111,6 +112,18 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
          ))}
       </div>
     )
+
+    const BatteryTestData = ({ batteryTest }) => {
+      // if (!batteryTest) return null
+      return (
+      <div className="dataDiv">
+          <h3>Battery Test</h3>
+        {/* Rendering notes */}
+        {batteryTest.notes.map((note, index) => (            
+          <p key={index}>{note.note}</p>       
+        ))}
+      </div>
+     ) };
 
     //note functions edit & delete
    const handleEditNote = (index) => {
@@ -163,7 +176,7 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
             topicVis = warninglights.isFormVisible
             break;
          case 'battery':
-            setWarningLights((prevState) => ({
+            setBatteryTest((prevState) => ({
                ...prevState,
                isFormComplete: !prevState.isFormComplete,
              }))    
@@ -226,7 +239,7 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
 
   <div className="topicDiv">
    {/* battery */}
-   <Topic isVisible={batteryTest.isFormVisible} component={ <BatteryTest setBattTestResults={setBattTestResults} toggleStatus={toggleStatus} /> } />
+   <Topic isVisible={batteryTest.isFormVisible} component={ <BatteryTest setBatteryTest={setBatteryTest}/> } />
    {/* warning lights */}
    <Topic 
       isVisible={warninglights.isFormVisible} 
@@ -247,18 +260,11 @@ export const DVI = ({setBattTestResults, battTestResults}) => {
             <StatusCheck topic='battery' isComplete={batteryTest.isFormComplete} topicTxt='Battery Test' />
             <StatusCheck topic='lights' isComplete={isExtLightComplete} topicTxt='Exterior Lights' />
          </div>
-         <div>
+         <div className="resultsDiv">
            {warninglights.isFormComplete && <WarningLightData />}
+        
+            {batteryTest.isFormComplete && <BatteryTestData batteryTest={batteryTest}/>}        
          </div>
-         <div>
-            
-         {battTestResults.map((result, index) => (
-            <div key={index}>
-               <h3>Battery Test {battTestResults.length}</h3>
-            <p >{result.volts} V {result.amps} CCA</p>
-            </div>
-         ))}
-      </div>
 
       <div>
          

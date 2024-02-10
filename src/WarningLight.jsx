@@ -15,12 +15,11 @@ export const WarningLights = ({ warninglights, setWarningLights }) => {
       },
     }))
   }
- console.log(warninglights)
+
   return (
     <div>
       <h3>Warning Lights</h3>
       {Object.values(warninglights).map((option) => {
-              console.log(option, option.isIlluminated)
         // don't render isFormVisible or isFormComplete
         if (option.id == undefined) {
           return null 
@@ -41,6 +40,7 @@ export const WarningLights = ({ warninglights, setWarningLights }) => {
       })}
       <> 
         {warninglights.other.isIlluminated && <AddNote setNoteObj={setWarningLights} />} 
+        {warninglights.notes.length >= 1 && <p></p>}
       </>
     </div>
   )

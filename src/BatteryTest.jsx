@@ -1,23 +1,33 @@
 import { getDateTime } from "./utils"
 import { useState } from 'react'
 import React from "react"
+import { AddNote } from "./AddNote"
 
-export const BatteryTest = ({setBattTestResults, toggleStatus}) => {
-  const [batVolts, setBattVoltage] = useState(12.2)
-  const [batAmps, setBatAmps] = useState(800)
-   const handleResult = () => {
+export const BatteryTest = ({setBatteryTest}) => {
+  const [batVolts, setBattVoltage] = useState('')
+  const [batAmps, setBatAmps] = useState('')
+  const [isPass, setIsPass] = useState(false)
+
+   const handleResult = (event) => {
+    event.preventDefault()
     if (batVolts !== '') {
       const timestamp = getDateTime()
-      setBattTestResults(prevResults => [...prevResults, { volts: batVolts, amps: batAmps, timestamp: timestamp }])
-      setBattVoltage('')
-      setBatAmps('')
-      toggleStatus('battery')
+      setBatteryTest((prevState) => ({
+        notes: [
+          ...prevState.notes,
+          {note:`${ batVolts} V ${batAmps} CCA Test: ${isPass ? 'Pass' : 'Fail'}`, timestamp: timestamp},
+        ],
+      }))
+      //clear inputs
+      // setBattVoltage('')
+      // setBatAmps('')
     }
   }
 
   return (
     <div className='alignRight'>
       <h2>Battery Test</h2>
+      
       <label htmlFor="battVolts">Voltage: </label>
       <input
         type="text"
@@ -34,7 +44,26 @@ export const BatteryTest = ({setBattTestResults, toggleStatus}) => {
         value={batAmps}
         onChange={(e) =>  setBatAmps(e.target.value)}>
         </input><br></br>
-      <button type="button" onClick={handleResult}>Add Test Result</button>
+        <label htmlFor="passRadio">Pass</label>
+        <input 
+          type="radio"
+          id="passRadio"
+          checked={isPass}
+          onChange={() => setIsPass(true)}
+        />
+         <label htmlFor="failRadio">Fail</label>
+        <input 
+          type="radio"
+          id="failRadio"
+          checked={!isPass}
+          onChange={() => setIsPass(false)}
+        /><br></br>
+        <button type="submit" onClick={(event) =>handleResult(event)}>Add Test Result</button>
+      
+        
+        <AddNote setNoteObj={setBatteryTest} />
+       
+      
     </div>
   )
 }
