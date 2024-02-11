@@ -2,136 +2,238 @@ import React, {useState} from "react";
 import { AddNote } from "./AddNote";
 
 export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
- 
-    const handleBulbNum = (optionId, partNum) => {
+    const [note, setNote] = useState('')
+    const handleBulbNum = (lightId, partNum) => {
         setExteriorLights((prevState) => ({
             ...prevState,
-            [optionId]: {
-                ...prevState[optionId],
+            [lightId]: {
+                ...prevState[lightId],
                 bulb_num: partNum,                
             }
         }))
     }
-    // toggles isWorking or isRepaired
-    const toggleState = (optionId, property) => {
+    // toggles isPass or isRepaired
+    const togglePassFail = (lightId, property) => {
+        console.log(lightId, property)
         setExteriorLights((prevState) => ({
             ...prevState,
-            [optionId]: {
-                ...prevState[optionId],
-                [property]: !prevState[optionId][property]
+            [lightId]: {
+                ...prevState[lightId],
+                [property]: !prevState[lightId][property] //can be used with isPass or isRepaired
             }
         }))
     }
 
-    const handleSubmit = (value) => {
-        const resultsString = `${value.isRepaired ? 
-            ('Exterior lights pass visual inspection') : 
-            (`${value.name} Fail ${value.isRepaired ? `Replaced ${value.part}` : `Unable to repair: ${value.notes}`}`)} `
-
-            const updatedNotes = [...exteriorLights.notes, resultsString]
-            
-            //push notes to exteriorLights.notes
+    const handleSubmit = (resultsString) => {            
+            //push notes to .notes
             setExteriorLights((prevState) => ({
                 ...prevState,
-               [notes]: updatedNotes
+               notes: [...exteriorLights.notes, resultsString]
             }))          
-           //push bulb part numbers to exteriorList.parts
+           //push bulb part numbers to .parts
            if (!key.isRepaired) {
-            const updatedParts = [...exteriorLights.parts, bulb]
             setExteriorLights((prevState) => ({
                 ...prevState,
-                parts: updatedParts
+                parts: [...exteriorLights.parts, bulb]
             }))
            }  
         }
+        
         return (
-            <div className="row">
-              {Object.keys(exteriorLights).map((category) => {
-                const lights = exteriorLights[category];
-                if (category !== 'notes' && category !== 'parts') {
-                  return (
-                    <div key={category}>
-                      <h3>{lights.name}</h3> {/* Adjusted from category.name to lights.name */}
-                      {Object.entries(lights).map(([location, value]) => {
-                        if (lights.id === undefined || lights.id === null) {
-                          return null;
-                        }
-          
-                        console.log(location, lights.id)
-                        return (
-                          <div key={lights.id}>
-                            {/* Dynamic content based on value could go here */}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )
-                }
-                return null; // Ensure we return null for filtered categories
-              })}
-            </div>
-          )
-        }
-    
-                    //                     <div key={value.id}>
-                    //                         <fieldset>
-                    //                 <legend>{value.name}</legend>
-                        
-                    //             <label htmlFor='passRadio' >Pass
-                    //                 <input 
-                    //                     type="radio"
-                    //                     id='passRadio'
-                    //                     checked={value.isWorking}
-                    //                     onChange={() => value.isWorking}
-                    //                 />
-                    //             </label>
-                    //             <label htmlFor='failRadio' >Fail
-                    //                 <input 
-                    //                     type="radio"
-                    //                     id='failRadio'
-                    //                     checked={!value.isWorking}
-                    //                     onChange={() => toggleState(key, value.isWorking)}
-                    //                 />
-                    //             </label>
-                    //             {!key.isWorking && (
-                    //                 <div className="lightFormDiv">
+            Object.entries(exteriorLights)
+                .filter(([key, _]) => !['notes', 'parts', 'isFormVisible', 'isFormComplete'].includes(key))
+                .map(([category, details]) => {
+                // console.log(`category: ${category}` )
+                const {
+                    bulb_num, 
+                    name, 
+                    locations, 
+                    isPass, 
+                    isPassLF = null, 
+                    isPassRF = null, 
+                    isPassRR = null, 
+                    isPassLR = null, 
+                    isRepaired, 
+                    id 
+                } = details
+                console.log(name)
+                const resultsString = 
+                `${isPass ? 
+                    ('Exterior lights pass visual inspection') : 
+                    (`${isPassLF ? '': 'Left Front'} ${isPassRF ? '': 'Right Front'}  ${isPassRR ? '': 'Right Rear'}  ${isPassLR ? '': 'Left Rear'} ${name} Fail ${isRepaired ? `Replaced ${bulb_num}` : `Unable to repair: ${note}`}`)} `
+                    return (
+                        <div className="eachLightDiv" key={id}>
+                                   
+                            <fieldset>
+                            <legend>{name}</legend>
+
+                            <label htmlFor='passRadio' >✅
+                            <input 
+                                type="radio"
+                                id='passRadio'
+                                checked={isPass}
+                                onChange={() => togglePassFail(id, 'isPass')}
+                            />
+                            </label>
+                            <label htmlFor='failRadio' >❌
+                            <input 
+                                type="radio"
+                                id='failRadio'
+                                checked={!isPass}
+                                onChange={() => togglePassFail(id, 'isPass')}
+                            />
+                            </label>
+                            {!isPass && (
+                            <div className="lightFormDiv" key={`${id}-Form`}>
+
+                                    <legend>Repair Status</legend>
+                                    {isPassLF !== null && 
+                                        <label htmlFor="lfCB" key={`${id}-isPassLF`}>
+                                            <input 
+                                                type="checkbox"
+                                                id="lfCB"       
+                                                checked={isPassLF} 
+                                                onChange={() => togglePassFail(id, 'isPassLF')}
+                                            />LF
+                                        </label> }     
+                                    {isPassRF !== null && 
+                                        <label htmlFor="rfCB" key={`${id}-isPassRF`}>
+                                            <input 
+                                                type="checkbox"
+                                                id="rfCB"       
+                                                checked={isPassRF} 
+                                                onChange={() => togglePassFail(id, 'isPassRF')}
+                                            />RF
+                                        </label> }  
+                                    {isPassRR !== null && 
+                                        <label htmlFor="rrCB" key={`${id}-isPassRR`}>
+                                            <input 
+                                                type="checkbox"
+                                                id="rrCB"       
+                                                checked={isPassLF} 
+                                                onChange={() => togglePassFail(id, 'isPassRR')}
+                                            />RR
+                                        </label> }           
+                                    {isPassLR !== null && 
+                                        <label htmlFor="lrCB" key={`${id}-isPassLR`}>
+                                            <input 
+                                                type="checkbox"
+                                                id="lrCB"       
+                                                checked={isPassLR} 
+                                                onChange={() => togglePassFail(id, 'isPassLR')}
+                                            />LR
+                                        </label> }                                         
                                     
-                    //                         <legend>Repair Status</legend>
-                    //                         {/* <LocationRadios setBulbLocation={setBulbLocation} bulbLocation={bulbLocation}/> */}                                             
-                                            
-                    //                     <label htmlFor="repairedRadio">Replaced or Repaired</label>
-                    //                         <input 
-                    //                             type="radio" 
-                    //                             id="repairedRadio"
-                    //                             checked={value.isRepaired}
-                    //                             onChange={() => toggleState(key, value.isRepaired)}
-                    //                         />
-                    //                     <label htmlFor="notRepairedRadio">Unable to Repair</label>
-                    //                     <input 
-                    //                         type="radio"
-                    //                         id="notRepairedRadio"
-                    //                         checked={!value.isRepaired}
-                    //                         onChange={() => toggleState(key, value.isRepaired)} />
-                                    
-                    //                     {value.isRepaired ? (
-                    //                     <> 
-                    //                         <label htmlFor="bulbNumberInput">Bulb or Part # 
-                    //                         <input 
-                    //                             type="text"
-                    //                             id="bulbNumberInput"
-                    //                             placeholder="part #"
-                    //                             value={value.part}
-                    //                             onChange={(e) => {handleBulbNum(key, e.target.value)}} />
-                    //                             </label>
-                    //                     </>) : (
-                    //                     <> 
-                    //                         <AddNote setNoteObj={setExteriorLights.notes} />
-                    //                     </>)}
-                    //                     <button type="button" onClick={() => handleSubmit(value)}>Submit</button>
-                    //                 </div>
-                    //             )}
-                    //         </fieldset>
-                    //     </div>
-                    // )
+                                <label htmlFor="repairedRadio">Replaced or Repaired</label>
+                                    <input 
+                                        type="radio" 
+                                        id="repairedRadio"
+                                        checked={isRepaired}
+                                        onChange={() => togglePassFail(id, 'isRepaired')}
+                                    />
+                                <label htmlFor="notRepairedRadio">Unable to Repair</label>
+                                <input 
+                                    type="radio"
+                                    id="notRepairedRadio"
+                                    checked={!isRepaired}
+                                    onChange={() => togglePassFail(id, 'isRepaired')} />
+
+                                {isRepaired ? (
+                                <div key={`${id}-!repaired`}> 
+                                    <label htmlFor="bulbNumberInput">Bulb or Part # 
+                                    <input 
+                                        type="text"
+                                        id="bulbNumberInput"
+                                        placeholder="part #"
+                                        value={bulb_num}
+                                        onChange={(e) => {handleBulbNum(id, e.target.value)}} />
+                                        </label>
+                                </div>) : (
+                                <div key={`${id}-repaired`}> 
+                                    <AddNote setNoteObj={setExteriorLights.notes} />
+                                </div>)}
+                                <button type="button" onClick={() => handleSubmit(resultsString)}>Submit</button>
+                            </div>
+                            )}
+                            </fieldset>
+
+                        </div>
+                    )
+                          
+            })
+          );
+        };
+
+
+
+                                        
+              
+                                        
+
+                                    //     <fieldset>
+                                    //     <legend>{name}</legend>
+                                    //     <label htmlFor="passCB">
+                                    //         <input 
+                                    //             id="passCB"
+                                    //             type="checkbox"
+                                    //             checked={isPass}
+                                    //             onChange={() => togglePassFail(id, 'isPass')}
+                                    //         />✅
+                                    //     </label>
+                                    //     <label htmlFor="failCB">
+                                    //         <input 
+                                    //             id="failCB"
+                                    //             type="checkbox"
+                                    //             checked={!isPass}
+                                    //             onChange={() => togglePassFail(id, 'isPass')}
+                                    //         />❌
+                                    //     </label>
+                                    //     {
+                                    //         lightDetails.isPass 
+                                    //             ? (<div></div>) 
+                                    //             : (<div></div>)
+                                    //     }
+                                    // </fieldset>
  
-    
+ //fieldset   
+// legend {exteriorLights.name}
+// checkboxes locations =lf,rf,rr,lr  (locations.location) onChange toggleState(locations.id, isWorking) checked isWorking
+// isWorking ? '' : 'isRepaired true false radios onchange toggleState locations.id, isRepaired checked isRepaired'
+//isRepaired? 'bulb_num' : 'note'
+//button
+
+{/* <form>
+                            {Object.entries(exteriorLights).filter(([key, value]) => !['notes', 'parts', 'isFormVisible', 'isFormComplete'].includes(key)).map(([lightId, lightDetails]) => {
+                                console.log(lightId, lightDetails)
+                                Object.entries(lightDetails).filter(([detail, names]) => ['name', ].includes(detail)).map((lightName) => {
+                                    console.log(lightName)
+                                })
+                                return (
+                                <div key={lightId}>
+                                    <fieldset>
+                                        <legend>{lightDetails.name}</legend>
+                                        <label htmlFor="passCB">
+                                            <input 
+                                                id="passCB"
+                                                type="checkbox"
+                                                checked={lightDetails.isPass}
+                                                onChange={() => togglePassFail(lightId, 'isPass')}
+                                            />✅
+                                        </label>
+                                        <label htmlFor="failCB">
+                                            <input 
+                                                id="failCB"
+                                                type="checkbox"
+                                                checked={!lightDetails.isPass}
+                                                onChange={() => togglePassFail(lightId, 'isPass')}
+                                            />❌
+                                        </label>
+                                        {
+                                            lightDetails.isPass 
+                                                ? (<div></div>) 
+                                                : (<div></div>)
+                                        }
+                                    </fieldset>
+                                </div>
+                            )})}
+                        </form> */}

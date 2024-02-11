@@ -220,8 +220,14 @@ label {
 .lightFormDiv {
   max-width: 800px;
   align-self: start;
+ 
 }
 .topicDiv{
   position: relative;
   left: 200px;
+}
+.eachLightDiv {
+  position: relative;
+  right: 300px;
+  width: 800px;
 }
