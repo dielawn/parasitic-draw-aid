@@ -24,19 +24,21 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
         }))
     }
 
-    const handleSubmit = (resultsString) => {            
+    const handleSubmit = (resultsString, isRepaired, bulb) => {            
             //push notes to .notes
             setExteriorLights((prevState) => ({
                 ...prevState,
                notes: [...exteriorLights.notes, resultsString]
             }))          
            //push bulb part numbers to .parts
-           if (!key.isRepaired) {
+           if (!isRepaired) {
             setExteriorLights((prevState) => ({
                 ...prevState,
                 parts: [...exteriorLights.parts, bulb]
             }))
            }  
+           console.log(exteriorLights.parts.length, exteriorLights.notes.length)
+           console.log(resultsString)
         }
         
         return (
@@ -47,7 +49,6 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                 const {
                     bulb_num, 
                     name, 
-                    locations, 
                     isPass, 
                     isPassLF = null, 
                     isPassRF = null, 
@@ -56,11 +57,32 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                     isRepaired, 
                     id 
                 } = details
-                console.log(name)
+               
+                const handleLocations = () => {
+                    let locations = []
+                    const lf = 'Left Front'
+                    const rf = 'Right Front'
+                    const rr = 'Right Rear'
+                    const lr = 'Left Rear'
+                    if (!isPassLF) {
+                        locations.push(lf)
+                    } 
+                    if (!isPassRF) {
+                        locations.push(rf)
+                    } 
+                    if (!isPassLR) {
+                        locations.push(lr)
+                    } 
+                    if (!isPassRR) {
+                        locations.push(rr)
+                    } 
+
+                }
+
                 const resultsString = 
                 `${isPass ? 
                     ('Exterior lights pass visual inspection') : 
-                    (`${isPassLF ? '': 'Left Front'} ${isPassRF ? '': 'Right Front'}  ${isPassRR ? '': 'Right Rear'}  ${isPassLR ? '': 'Left Rear'} ${name} Fail ${isRepaired ? `Replaced ${bulb_num}` : `Unable to repair: ${note}`}`)} `
+                    (`${isPassLF !== null || isPassLF &&'Left Front'} ${isPassRF !== null || isPassRF &&'Right Front'}  ${isPassRR !==null || isPassRR && 'Right Rear'}  ${isPassLR !== null || isPassLR && 'Left Rear'} ${name} Fail. ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}`)} `
                     return (
                         <div className="eachLightDiv" key={id}>
                                    
@@ -86,13 +108,15 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                             {!isPass && (
                             <div className="lightFormDiv" key={`${id}-Form`}>
 
-                                    <legend>Repair Status</legend>
-                                    {isPassLF !== null && 
+                                   
+                                    <fieldset>
+                                        <legend>Check Failed locations</legend>
+                                        {isPassLF !== null && 
                                         <label htmlFor="lfCB" key={`${id}-isPassLF`}>
                                             <input 
                                                 type="checkbox"
                                                 id="lfCB"       
-                                                checked={isPassLF} 
+                                                checked={!isPassLF} 
                                                 onChange={() => togglePassFail(id, 'isPassLF')}
                                             />LF
                                         </label> }     
@@ -101,7 +125,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                             <input 
                                                 type="checkbox"
                                                 id="rfCB"       
-                                                checked={isPassRF} 
+                                                checked={!isPassRF} 
                                                 onChange={() => togglePassFail(id, 'isPassRF')}
                                             />RF
                                         </label> }  
@@ -110,7 +134,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                             <input 
                                                 type="checkbox"
                                                 id="rrCB"       
-                                                checked={isPassLF} 
+                                                checked={!isPassLF} 
                                                 onChange={() => togglePassFail(id, 'isPassRR')}
                                             />RR
                                         </label> }           
@@ -119,12 +143,13 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                             <input 
                                                 type="checkbox"
                                                 id="lrCB"       
-                                                checked={isPassLR} 
+                                                checked={!isPassLR} 
                                                 onChange={() => togglePassFail(id, 'isPassLR')}
                                             />LR
                                         </label> }                                         
+                                    </fieldset>
                                     
-                                <label htmlFor="repairedRadio">Replaced or Repaired</label>
+                                <label htmlFor="repairedRadio">Repaired</label>
                                     <input 
                                         type="radio" 
                                         id="repairedRadio"
@@ -138,7 +163,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                     checked={!isRepaired}
                                     onChange={() => togglePassFail(id, 'isRepaired')} />
 
-                                {isRepaired ? (
+                               
                                 <div key={`${id}-!repaired`}> 
                                     <label htmlFor="bulbNumberInput">Bulb or Part # 
                                     <input 
@@ -148,11 +173,11 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                         value={bulb_num}
                                         onChange={(e) => {handleBulbNum(id, e.target.value)}} />
                                         </label>
-                                </div>) : (
+                                </div>
                                 <div key={`${id}-repaired`}> 
-                                    <AddNote setNoteObj={setExteriorLights.notes} />
-                                </div>)}
-                                <button type="button" onClick={() => handleSubmit(resultsString)}>Submit</button>
+                                    <AddNote setNoteObj={setExteriorLights} />
+                                </div>
+                                <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, exteriorLights.parts)}>Submit</button>
                             </div>
                             )}
                             </fieldset>

@@ -60,11 +60,12 @@
   padding: 50px;
   overflow-x: hidden;
   position: absolute;
-  top: 50px;
+  bottom: -500px;
   max-height: 850px;
   min-width: 300px;
   overflow-y: scroll;
-  left: 250px;
+  left: -375px;
+ 
 }
 .alignLeft {
   text-align: left;
@@ -229,5 +230,5 @@ label {
 .eachLightDiv {
   position: relative;
   right: 300px;
-  width: 800px;
+  width: 400px;
 }

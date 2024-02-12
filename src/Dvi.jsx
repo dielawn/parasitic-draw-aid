@@ -61,7 +61,7 @@ export const DVI = () => {
          isPass: true,
          isPassLF: true,
          isPassRF: true,
-         isRepaired: false,
+         isRepaired: null,
          id: 'head_lights'
       },     
       tail_lights:{
