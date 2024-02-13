@@ -78,11 +78,11 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                     } 
 
                 }
-
+                const newString = `${name} ${isPass ? ('✅') : (`❌  ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}` )}`
                 const resultsString = 
                 `${isPass ? 
-                    ('Exterior lights pass visual inspection') : 
-                    (`${isPassLF !== null || isPassLF &&'Left Front'} ${isPassRF !== null || isPassRF &&'Right Front'}  ${isPassRR !==null || isPassRR && 'Right Rear'}  ${isPassLR !== null || isPassLR && 'Left Rear'} ${name} Fail. ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}`)} `
+                    (`${name} `) : 
+                    (`Fail. ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}`)} `
                     return (
                         <div className="eachLightDiv" key={id}>
                                    
@@ -177,7 +177,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                 <div key={`${id}-repaired`}> 
                                     <AddNote setNoteObj={setExteriorLights} />
                                 </div>
-                                <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, exteriorLights.parts)}>Submit</button>
+                                <button type="button" onClick={() => handleSubmit(newString, isRepaired, exteriorLights.parts)}>Submit</button>
                             </div>
                             )}
                             </fieldset>
