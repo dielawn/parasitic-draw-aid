@@ -24,7 +24,8 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
         }))
     }
 
-    const handleSubmit = (resultsString, isRepaired, bulb) => {            
+    const handleSubmit = (resultsString, isRepaired, bulb) => {      
+        console.log('hi')      
             //push notes to .notes
             setExteriorLights((prevState) => ({
                 ...prevState,
@@ -58,31 +59,9 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                     id 
                 } = details
                
-                const handleLocations = () => {
-                    let locations = []
-                    const lf = 'Left Front'
-                    const rf = 'Right Front'
-                    const rr = 'Right Rear'
-                    const lr = 'Left Rear'
-                    if (!isPassLF) {
-                        locations.push(lf)
-                    } 
-                    if (!isPassRF) {
-                        locations.push(rf)
-                    } 
-                    if (!isPassLR) {
-                        locations.push(lr)
-                    } 
-                    if (!isPassRR) {
-                        locations.push(rr)
-                    } 
-
-                }
-                const newString = `${name} ${isPass ? ('✅') : (`❌  ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}` )}`
-                const resultsString = 
-                `${isPass ? 
-                    (`${name} `) : 
-                    (`Fail. ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}`)} `
+              
+                const resultsString = `${name} ${isPass ? ('✅') : (`❌  ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}` )}`
+                
                     return (
                         <div className="eachLightDiv" key={id}>
                                    
@@ -177,7 +156,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                 <div key={`${id}-repaired`}> 
                                     <AddNote setNoteObj={setExteriorLights} />
                                 </div>
-                                <button type="button" onClick={() => handleSubmit(newString, isRepaired, exteriorLights.parts)}>Submit</button>
+                                <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, lightId.bulb_num)}>Submit</button>
                             </div>
                             )}
                             </fieldset>
