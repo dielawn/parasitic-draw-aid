@@ -57,17 +57,15 @@ export const DVI = () => {
       head_lights: {
          bulb_num: '',
          name: 'Head Lights',
-         locations: ['Left Headlight', 'Right Headlight'],
          isPass: true,
          isPassLF: true,
          isPassRF: true,
-         isRepaired: null,
+         isRepaired: false,
          id: 'head_lights'
       },     
       tail_lights:{
          bulb_num: '',
          name: 'Tail Lights',
-         locations: ['Left Taillight', 'Right Taillight'],
          isPass: true,
          isPassLR: true,
          isPassRR: true,
@@ -77,7 +75,6 @@ export const DVI = () => {
       tag_lights:{
          bulb_num: '',
          name: 'License Place Lights',
-         locations: ['Left License Light', 'Right License Light'],
          isPass: true,
          isPassLR: true,
          isPassRR: true,
@@ -87,7 +84,6 @@ export const DVI = () => {
       brake_lights:{
          bulb_num: '',
          name: 'Brake Lights',
-         locations: ['Left Brake Light', 'Right Brake Light', 'Center Brake Light'],
          isPass: true,
          isPassLR: true,
          isPassRR: true,
@@ -98,7 +94,6 @@ export const DVI = () => {
       reverse_lights:{
          bulb_num: '',
          name: 'Reverse Lights',
-         locations: ['Left Reverse Light', 'Right Reverse Light'],
          isPass: true,
          isPassRR: true,
          isPassLR: true,
@@ -108,9 +103,6 @@ export const DVI = () => {
       turn_lights:{
          bulb_num: '',
          name: 'Turn Lights',
-         locations: 
-            ['Left Front Turn Light', 'Right Rear Turn Light',
-            'Right Front Turn Light', 'Right Rear Turn Light',],
          isPass: true,
          isPassLF: true,
          isPassRF: true,

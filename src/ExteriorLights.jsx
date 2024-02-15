@@ -156,7 +156,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                 <div key={`${id}-repaired`}> 
                                     <AddNote setNoteObj={setExteriorLights} />
                                 </div>
-                                <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, lightId.bulb_num)}>Submit</button>
+                                <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, id.bulb_num)}>Submit</button>
                             </div>
                             )}
                             </fieldset>
