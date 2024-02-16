@@ -2,7 +2,8 @@ import React, {useState} from "react";
 import { AddNote } from "./AddNote";
 
 export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
-    const [note, setNote] = useState('')
+    const [repairNote, setRepairNote] = useState('')
+    
     const handleBulbNum = (lightId, partNum) => {
         setExteriorLights((prevState) => ({
             ...prevState,
@@ -24,8 +25,17 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
         }))
     }
 
+    const handleNotes = () => {       
+       for (const note of exteriorLights.notes) {        
+        if (note.note !== undefined) {
+            console.log(note.note)
+            return note.note
+        }
+       }
+    }
+
     const handleSubmit = (resultsString, isRepaired, bulb) => {      
-        console.log('hi')      
+             
             //push notes to .notes
             setExteriorLights((prevState) => ({
                 ...prevState,
@@ -39,7 +49,10 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
             }))
            }  
            console.log(exteriorLights.parts.length, exteriorLights.notes.length)
-           console.log(resultsString)
+           for(let i =0; i < exteriorLights.notes.length; i++) {
+            console.log(exteriorLights.notes[i])
+           }
+           console.log(handleNotes())
         }
         
         return (
@@ -60,7 +73,8 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                 } = details
                
               
-                const resultsString = `${name} ${isPass ? ('✅') : (`❌  ${isRepaired ? `Replaced  ${bulb_num}` : 'Unable to repair'} ${note}` )}`
+                const resultsString = `${name} ${isPass ? '✅' : `${isPassLF ? '' : 'LF'} ${isPassRF ? '' : 'RF'} ${isPassRR ? '' : 'RR'} ${isPassLR ? '' : 'LR'} ❌  ${isRepaired ? `Replaced  ${bulb_num} ✅ ` : 'Unable to repair ❌'}${handleNotes() ? ` Note: ${handleNotes()}` : ''}`}`
+
                 
                     return (
                         <div className="eachLightDiv" key={id}>
@@ -113,7 +127,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                             <input 
                                                 type="checkbox"
                                                 id="rrCB"       
-                                                checked={!isPassLF} 
+                                                checked={!isPassRR} 
                                                 onChange={() => togglePassFail(id, 'isPassRR')}
                                             />RR
                                         </label> }           

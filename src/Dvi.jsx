@@ -79,7 +79,7 @@ export const DVI = () => {
          isPassLR: true,
          isPassRR: true,
          isRepaired: false,
-         id: 'tag',         
+         id: 'tag_lights',         
       },     
       brake_lights:{
          bulb_num: '',
