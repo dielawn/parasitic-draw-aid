@@ -6,7 +6,7 @@ export const PlateToVinConverter = ({setVehicle}) => {
     const [plate, setPlate] = useState('')
     const apikey = import.meta.env.VITE_PLATE_TO_VIN_API_KEY
     const makeApiCall = async () => {
-        console.log(`state: ${state}, plate: ${[plate]} `)
+        console.log(`state: ${state}, plate: ${[plate]} API: ${apikey}`)
         if (state !== '' && plate !== '') {
             const url = new URL("https://platetovin.com/api/convert")
         
