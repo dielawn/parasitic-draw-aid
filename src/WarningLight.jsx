@@ -6,7 +6,7 @@ export const WarningLights = ({ warninglights, setWarningLights }) => {
 
   const handleLightSelect = (optionId, ) => {
   
-
+   
     setWarningLights((prevState) => ({
       ...prevState,
       [optionId]: {
@@ -14,7 +14,10 @@ export const WarningLights = ({ warninglights, setWarningLights }) => {
         isIlluminated: !prevState[optionId].isIlluminated,
       },
     }))
+   
   }
+
+  
 
   return (
     <div>

@@ -50,18 +50,18 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
 
     const handleSubmit = (resultsString, isRepaired, bulb) => {      
        
-                //push notes to .notes
-                setExteriorLights((prevState) => ({
-                    ...prevState,
+        //push notes to .notes
+        setExteriorLights((prevState) => ({
+            ...prevState,
                 notes: [...exteriorLights.notes, resultsString]
             }))          
-            //push bulb part numbers to .parts
-            if (!isRepaired) {
-                setExteriorLights((prevState) => ({
-                    ...prevState,
-                    parts: [...exteriorLights.parts, bulb]
-                }))
-            }  
+        //push bulb part numbers to .parts
+        if (isRepaired) {
+        setExteriorLights((prevState) => ({
+            ...prevState,
+                parts: [...exteriorLights.parts, bulb]
+            }))
+        }  
         
            console.log(resultsString)     
            
@@ -119,7 +119,7 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                 onChange={() => togglePassFail(id, 'isPass')}
                             />
                             </label>
-                            {!isPass && (
+                            {!isPass && !isComplete && (
                             <div className="lightFormDiv" key={`${id}-Form`}>
 
                                    

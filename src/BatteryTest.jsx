@@ -12,7 +12,7 @@ export const BatteryTest = ({setBatteryTest, batteryTest}) => {
     if (batVolts !== '') {
       setBatteryTest((prevState) => ({
         ...prevState,
-        notes: [ ...batteryTest.notes, `${ batVolts} V ${batAmps} CCA Test: ${isPass ? 'Pass' : 'Fail'}`,
+        notes: [ ...batteryTest.notes, `${ batVolts} V ${batAmps} CCA ${isPass ? '✅' : '❌'}`,
         ],
       }))
    
@@ -39,14 +39,14 @@ export const BatteryTest = ({setBatteryTest, batteryTest}) => {
         value={batAmps}
         onChange={(e) =>  setBatAmps(e.target.value)}>
         </input><br></br>
-        <label htmlFor="passRadio">Pass</label>
+        <label htmlFor="passRadio">✅</label>
         <input 
           type="radio"
           id="passRadio"
           checked={isPass}
           onChange={() => setIsPass(true)}
         />
-         <label htmlFor="failRadio">Fail</label>
+         <label htmlFor="failRadio">❌</label>
         <input 
           type="radio"
           id="failRadio"

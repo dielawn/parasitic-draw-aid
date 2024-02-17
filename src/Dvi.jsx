@@ -143,7 +143,7 @@ export const DVI = () => {
          {Object.values(warninglights).map((option) => {
             //check if illuminated
             if (option.isIlluminated) {
-               return <p key={option.id}>{option.name}</p>
+               return <p key={option.id}>{option.name} ❌</p>
             }
             return null
          })}

@@ -1,17 +1,17 @@
-import { PLATE_TO_VIN_API_KEY } from "./config";
 import React from 'react'
 import { useState } from "react";
 
 export const PlateToVinConverter = ({setVehicle}) => {
     const [state, setState] = useState('')
     const [plate, setPlate] = useState('')
+    const apikey = import.meta.env.VITE_PLATE_TO_VIN_API_KEY
     const makeApiCall = async () => {
-        console.log(`state: ${state}, plate: ${[plate]}`)
+        console.log(`state: ${state}, plate: ${[plate]} `)
         if (state !== '' && plate !== '') {
             const url = new URL("https://platetovin.com/api/convert")
         
             const headers = {
-                "Authorization": PLATE_TO_VIN_API_KEY,
+                "Authorization": apikey,
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             }
