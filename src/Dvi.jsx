@@ -61,7 +61,9 @@ export const DVI = () => {
          isPassLF: true,
          isPassRF: true,
          isRepaired: false,
-         id: 'head_lights'
+         id: 'head_lights',
+         isComplete: false,
+
       },     
       tail_lights:{
          bulb_num: '',
@@ -70,7 +72,8 @@ export const DVI = () => {
          isPassLR: true,
          isPassRR: true,
          isRepaired: false,
-         id: 'tail_lights'
+         id: 'tail_lights',
+         isComplete: false,
       },      
       tag_lights:{
          bulb_num: '',
@@ -79,7 +82,8 @@ export const DVI = () => {
          isPassLR: true,
          isPassRR: true,
          isRepaired: false,
-         id: 'tag_lights',         
+         id: 'tag_lights',        
+         isComplete: false, 
       },     
       brake_lights:{
          bulb_num: '',
@@ -89,7 +93,8 @@ export const DVI = () => {
          isPassRR: true,
          isPassC: true,
          isRepaired: false,
-         id: 'brake_lights',    
+         id: 'brake_lights',   
+         isComplete: false, 
       },     
       reverse_lights:{
          bulb_num: '',
@@ -98,7 +103,8 @@ export const DVI = () => {
          isPassRR: true,
          isPassLR: true,
          isRepaired: false,
-         id: 'reverse_lights',    
+         id: 'reverse_lights',
+         isComplete: false,   
       },     
       turn_lights:{
          bulb_num: '',
@@ -109,13 +115,25 @@ export const DVI = () => {
          isPassRR: true,
          isPassLR: true,
          isRepaired: false,
-         id: 'turn_lights',    
+         id: 'turn_lights',
+         isComplete: false,   
       },     
       notes: [],
       parts: [],
       isFormVisible: false,
       isFormComplete: false,
    })
+   const [brakeInfo, setBrakeInfo] = useState({
+      isFluidOk: true,
+      frontRemaining: '',
+      isFrontUneven: false,
+      rearRemaining: '',
+      isRearUneven: false,
+      isRearDrum: false,
+      notes: [],
+      isFormVisible: false,
+      isFormComplete: false,      
+  },)
 
        
     //return a html elements for any illuminated lights or notes.
@@ -136,17 +154,28 @@ export const DVI = () => {
     )
 
     //return battery test results or notes
-    const BatteryTestData = ({ batteryTest }) => {
+    const BatteryTestData = () => {
       // if (!batteryTest) return null
       return (
       <div className="dataDiv">
           <h3>Battery Test</h3>
         {/* Rendering notes */}
         {batteryTest.notes.map((note, index) => (            
-          <p key={index}>{note.note}</p>       
+          <p key={index}>{note}</p>       
         ))}
       </div>
      ) }
+
+     const ExteriorLightData = () => {
+      return(
+         <div className="dataDiv">
+            <h3>Exterior Lights</h3>
+            {exteriorLights.notes.map((note, index) => (
+               <p key={index}>{note}</p>
+            ))}
+         </div>
+      )
+     }
 
     //note functions edit & delete
    const handleEditNote = (index) => {
@@ -221,10 +250,27 @@ export const DVI = () => {
       
    }
 
+   const checkIsFormComplete = () => {
+      const allComplete = Object.values(exteriorLights).every(value => {
+         console.log(value.isComplete === true)
+         
+      })
+     console.log(allComplete, exteriorLights.notes.length)
+      if (exteriorLights.notes.length <= 1) {
+         for (const note of exteriorLights.notes) {
+            console.log(note)
+         }
+         
+      }
+   }
+
    //status checkbox btn
    const StatusCheck = ({topic, topicTxt, isComplete}) =>  {
       return (
-      <button key={topic} className="completeBtn" onClick={() => toggleStatus(topic)}>
+      <button key={topic} className="completeBtn" onClick={() => {
+         toggleStatus(topic)
+         checkIsFormComplete()
+         }}>
          {topicTxt} 
          <span className={`material-symbols-outlined ${isComplete ? 'complete' : 'incomplete'}`}>
             {isComplete ? 'check_box' : 'check_box_outline_blank'}
@@ -267,7 +313,7 @@ export const DVI = () => {
    <Topic 
       isVisible={batteryTest.isFormVisible} 
       component={ 
-         <BatteryTest setBatteryTest={setBatteryTest}/> 
+         <BatteryTest setBatteryTest={setBatteryTest} batteryTest={batteryTest}/> 
       } 
    />
    {/* warning lights */}
@@ -300,11 +346,11 @@ export const DVI = () => {
          <div className="resultsDiv">
            {warninglights.isFormComplete && <WarningLightData />}
         
-            {batteryTest.isFormComplete && <BatteryTestData batteryTest={batteryTest}/>}        
+            {batteryTest.isFormComplete && <BatteryTestData />}        
             
-            {/* {exteriorLights.isFormComplete && <ExteriorLightData />} */}
+            {exteriorLights.isFormComplete && <ExteriorLightData />}
          </div>
-
+         
       <div>
          
       </div>

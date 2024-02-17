@@ -120,7 +120,7 @@ window.addEventListener('load', () => {
               codeArray={codeArray} 
               setCodeArray={setCodeArray} 
               customer={customer} 
-              battTestResults={batTestResults} 
+              battTestResults={battTestResults} 
               setBattTestResults={setBattTestResults}/>
           </div>
         )}

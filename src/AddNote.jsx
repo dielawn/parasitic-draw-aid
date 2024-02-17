@@ -1,4 +1,4 @@
-import { getDateTime } from "./utils";
+
 import { useState } from "react";
 import React from 'react'
 
@@ -6,10 +6,10 @@ export const AddNote = ({ setNoteObj}) => {
     const [note, setNote] = useState('Note worthy notes')
     
     const handleNotes = () => {
-        const timestamp = getDateTime()
+        
         setNoteObj((prevState) => ({
             ...prevState,
-            notes: [...prevState.notes, { note: note, timestamp: timestamp }]
+            notes: [...prevState.notes,  note]
           }))          
         setNote('')
     }

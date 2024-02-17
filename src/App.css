@@ -61,10 +61,10 @@
   overflow-x: hidden;
   position: absolute;
   bottom: -500px;
-  max-height: 850px;
+  max-height: 350px;
   min-width: 300px;
   overflow-y: scroll;
-  left: -375px;
+  left: -75px;
  
 }
 .alignLeft {

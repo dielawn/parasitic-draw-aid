@@ -1,9 +1,8 @@
-import { getDateTime } from "./utils"
 import { useState } from 'react'
 import React from "react"
 import { AddNote } from "./AddNote"
 
-export const BatteryTest = ({setBatteryTest}) => {
+export const BatteryTest = ({setBatteryTest, batteryTest}) => {
   const [batVolts, setBattVoltage] = useState('')
   const [batAmps, setBatAmps] = useState('')
   const [isPass, setIsPass] = useState(false)
@@ -11,16 +10,12 @@ export const BatteryTest = ({setBatteryTest}) => {
    const handleResult = (event) => {
     event.preventDefault()
     if (batVolts !== '') {
-      const timestamp = getDateTime()
       setBatteryTest((prevState) => ({
-        notes: [
-          ...prevState.notes,
-          {note:`${ batVolts} V ${batAmps} CCA Test: ${isPass ? 'Pass' : 'Fail'}`, timestamp: timestamp},
+        ...prevState,
+        notes: [ ...batteryTest.notes, `${ batVolts} V ${batAmps} CCA Test: ${isPass ? 'Pass' : 'Fail'}`,
         ],
       }))
-      //clear inputs
-      // setBattVoltage('')
-      // setBatAmps('')
+   
     }
   }
 

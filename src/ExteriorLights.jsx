@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { AddNote } from "./AddNote";
 
 export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
-    const [repairNote, setRepairNote] = useState('')
+ 
     
     const handleBulbNum = (lightId, partNum) => {
         setExteriorLights((prevState) => ({
@@ -13,14 +13,13 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
             }
         }))
     }
-    // toggles isPass or isRepaired
+    // toggles isPass or isRepaired isComplete
     const togglePassFail = (lightId, property) => {
-        console.log(lightId, property)
         setExteriorLights((prevState) => ({
             ...prevState,
             [lightId]: {
                 ...prevState[lightId],
-                [property]: !prevState[lightId][property] //can be used with isPass or isRepaired
+                [property]: !prevState[lightId][property] //can be used with isPass or isRepaired isComplete
             }
         }))
     }
@@ -28,38 +27,50 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
     const handleNotes = () => {       
        for (const note of exteriorLights.notes) {        
         if (note.note !== undefined) {
-            console.log(note.note)
             return note.note
         }
        }
     }
 
+  const checkIsFormComplete = (resultsString, isRepaired, bulb) => {
+    const allComplete = Object.values(exteriorLights).every(value => value.isComplete === true)
+    if (allComplete) {
+        setExteriorLights(prevState => ({
+            ...prevState,
+            isFormComplete: true,
+        }))
+    } else {
+        setExteriorLights(prevState => ({
+            ...prevState,
+            isFormComplete: false,
+        }))
+    }
+    handleSubmit(resultsString, isRepaired, bulb)
+  }
+
     const handleSubmit = (resultsString, isRepaired, bulb) => {      
-             
-            //push notes to .notes
-            setExteriorLights((prevState) => ({
-                ...prevState,
-               notes: [...exteriorLights.notes, resultsString]
+       
+                //push notes to .notes
+                setExteriorLights((prevState) => ({
+                    ...prevState,
+                notes: [...exteriorLights.notes, resultsString]
             }))          
-           //push bulb part numbers to .parts
-           if (!isRepaired) {
-            setExteriorLights((prevState) => ({
-                ...prevState,
-                parts: [...exteriorLights.parts, bulb]
-            }))
-           }  
-           console.log(exteriorLights.parts.length, exteriorLights.notes.length)
-           for(let i =0; i < exteriorLights.notes.length; i++) {
-            console.log(exteriorLights.notes[i])
-           }
-           console.log(handleNotes())
-        }
+            //push bulb part numbers to .parts
+            if (!isRepaired) {
+                setExteriorLights((prevState) => ({
+                    ...prevState,
+                    parts: [...exteriorLights.parts, bulb]
+                }))
+            }  
+        
+           console.log(resultsString)     
+           
+    }
         
         return (
             Object.entries(exteriorLights)
                 .filter(([key, _]) => !['notes', 'parts', 'isFormVisible', 'isFormComplete'].includes(key))
                 .map(([category, details]) => {
-                // console.log(`category: ${category}` )
                 const {
                     bulb_num, 
                     name, 
@@ -69,14 +80,24 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                     isPassRR = null, 
                     isPassLR = null, 
                     isRepaired, 
-                    id 
+                    id,
+                    isComplete, 
                 } = details
                
-              
-                const resultsString = `${name} ${isPass ? '✅' : `${isPassLF ? '' : 'LF'} ${isPassRF ? '' : 'RF'} ${isPassRR ? '' : 'RR'} ${isPassLR ? '' : 'LR'} ❌  ${isRepaired ? `Replaced  ${bulb_num} ✅ ` : 'Unable to repair ❌'}${handleNotes() ? ` Note: ${handleNotes()}` : ''}`}`
+                //return the locations only if they exist in the object and fails inspection
+                const locations = ['LF', 'RF', 'RR', 'LR'].filter(location => {
+                    const isPassKey = `isPass${location}`;
+                    return details.hasOwnProperty(isPassKey) && details[isPassKey] === false;
+                }).join(' ')
 
                 
-                    return (
+                const locationString =locations ? `${locations} ❌` : ''
+                const statusString = `${isRepaired ? `Replaced  ${bulb_num} ✅ ` : 'Unable to repair '}${handleNotes() ? ` Note: ${handleNotes()}` : ''}`  
+                const resultsString = `${name} ${isPass ? '✅' : `${locationString} ${statusString} `} `
+               
+
+
+                return (
                         <div className="eachLightDiv" key={id}>
                                    
                             <fieldset>
@@ -170,11 +191,22 @@ export const ExteriorLightCheck = ({ exteriorLights, setExteriorLights, }) => {
                                 <div key={`${id}-repaired`}> 
                                     <AddNote setNoteObj={setExteriorLights} />
                                 </div>
-                                <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, id.bulb_num)}>Submit</button>
+                                {/* <button type="button" onClick={() => handleSubmit(resultsString, isRepaired, id.bulb_num)}>Submit</button> */}
                             </div>
-                            )}
+                            )}<br></br>
+                            
+                            <label htmlFor="completeCB">Complete</label>
+                            <input 
+                                id="completeCB"
+                                type="checkbox"
+                                checked={isComplete}
+                                onChange={() => {
+                                    togglePassFail(id, 'isComplete')
+                                    checkIsFormComplete(resultsString, isRepaired, id.bulb_num)
+                                }}
+                                />
                             </fieldset>
-
+                           
                         </div>
                     )
                           

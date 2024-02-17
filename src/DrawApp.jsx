@@ -70,7 +70,7 @@ export const DrawTestApp = ({vehicle, codeArray, setCodeArray, customer, battTes
                       <ul> 
                         <li>Visual inspection for lights, devices, or obvious draws </li>
                       </ul>
-                      <BatteryTest setBattTestResults={setBattTestResults} />
+                      <BatteryTest setBatteryTest={setBattTestResults} batteryTest={battTestResults} />
                   </div>
                     
                   <div className='step'>

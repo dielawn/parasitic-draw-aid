@@ -1,13 +1,13 @@
 import React from "react"
 import { Text, View } from '@react-pdf/renderer';
-export const TestResults = ({batTestResults, drawResults, codeArray, timeLog ,ampsLog, noteObj, vehicle}) => {
+export const TestResults = ({battTestResults, drawResults, codeArray, timeLog ,ampsLog, noteObj, vehicle}) => {
    
     return (
       <div className="resultsDiv">
       
          
         <h3>Battery Test Results:</h3>
-        {batTestResults.map((resultObj, index) => (
+        {battTestResults.map((resultObj, index) => (
         <p key={index}>Battery Test: {resultObj.volts} volts, {resultObj.amps} cca <br></br>{resultObj.timestamp} </p>
         ))}
         <h3>Codes:</h3>
